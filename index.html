@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
     <link href="styles.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
     <script defer src="script.js"></script>
 </head>
 <body>
     <main>
-        <input type="text" name="display" id="display">
+        <input type="text" name="display" id="display" tabindex="0">
+        <!-- <p id="display" tabindex="0"></p> -->
+
         <div class="button-wrapper">
             <button type="button" name="period" id="period">.</button>
             <button type="button" name="period" id="zero">0</button>
@@ -26,11 +29,11 @@
             <button type="button" name="seven" id="seven">7</button>
             <button type="button" name="eight" id="eight">8</button>
             <button type="button" name="nine" id="nine">9</button>
-            <button type="button" name="multiplication" id="multiplication">*</button>
+            <button type="button" name="multiplication" id="multiplication">x</button>
             <button type="button" name="clear" id="clear">AC</button>
-            <button type="button" name="backspace" id="backspace">C</button>
+            <button type="button" name="backspace" id="backspace">⌫</button>
             <button type="button" name="percentage" id="percentage">%</button>
-            <button type="button" name="division" id="division">/</button>
+            <button type="button" name="division" id="division">➗</button>
         </div>
     </main>
 </body>
