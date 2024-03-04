@@ -17,18 +17,6 @@ main {
     margin-top: 5%;
 }
 
-#display {
-    display: inline-block;
-    width: 360px;
-    height: 100px;
-    caret-color: transparent;
-    font-family: 'Orbitron', Arial, Helvetica, sans-serif;
-    font-size: 30px;
-    text-align: end;
-    border: 2px solid purple;
-    border-radius: 5px;
-}
-
 .button-wrapper {
     display: flex;
     justify-content: center;
@@ -43,4 +31,10 @@ button {
     font-size: 20px;
     font-weight: 900;
     border-radius: 5px;
+}
+
+#clear, #backspace {
+    color: #ffffff;
+    background-color: #d62a05;
+
 }
