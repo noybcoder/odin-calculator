@@ -1,32 +1,32 @@
-// const body = document.querySelector('body');
-// const display = document.createElement('input');
-// const dotBtn = document.createElement('button');
-// const dot = document.createTextNode('.')
-// let count = 0;
+const mainScreen = document.getElementById('main-screen');
+const subScreen = document.getElementById('sub-screen');
 
-// display.setAttribute('style', 'border: 3px solid purple; width: 200px; height: 50px; font-size: 30px;');
-// dotBtn.appendChild(dot);
-// dotBtn.setAttribute('type', 'button');
-// dotBtn.setAttribute('style', 'display: block; width: 50px; height: 50px; font-size: 30px;');
-// body.appendChild(display);
-// body.appendChild(dotBtn);
+const buttons = document.querySelector('.button-wrapper');
 
-// dotBtn.addEventListener('click', event => {
-//     if (!display.value.includes('.')) {
-//         display.value += event.target.textContent;
-//     };
-// });
+function isNumber(node) {
+    const regex = new RegExp('^\\d$', 'g')
+    return regex.test(node.textContent);
+}
 
-// [display, window].forEach(item => {
-//     item.addEventListener('keypress', event => {
-//         event.stopImmedidateProgagation;
-//         if (event.key === '.') {
-//             if (!display.value.includes('.')) {
-//                 display.value += event.key;
-//             };
-//         };
-        
-//     });
-// });
+const numberButtons = [...buttons.children].filter(isNumber);
 
+numberButtons.forEach(button => 
+    button.addEventListener('click', event => {
+        if (/^0$/g.test(mainScreen.textContent)) {
+            mainScreen.textContent = '';
+        }
+        if (mainScreen.textContent.length < 10) {
+            mainScreen.textContent += event.target.textContent;
+        }
+    })
+);
+
+window.addEventListener('keydown', event => {
+    if (/^0$/g.test(mainScreen.textContent)) {
+        mainScreen.textContent = '';
+    }
+    if (/^\d$/g.test(event.key) && mainScreen.textContent.length < 10) {
+        mainScreen.textContent += event.key;
+    }
+})
 
