@@ -8,20 +8,34 @@ const operatorButtons = document.getElementsByClassName('operators');
 const clearBtn = document.getElementById('clear');
 const deleteBtn = document.getElementById('backspace');
 
+let count = 0;
+
 [...numberButtons].forEach(button => 
     button.addEventListener('click', event => {
         if (/^0$/g.test(mainScreen.textContent)) {
             mainScreen.textContent = '';
         }
-        if (mainScreen.textContent.length < 10) {
+        else if (mainScreen.textContent.length < 10) {
             mainScreen.textContent += event.target.textContent;
         }
+        else if (/\d+.+/g.test(subScreen.textContent)) {
+            mainScreen.textContent += event.target.textContent;
+        }
+
+
     })
 );
 
 [...operatorButtons].forEach(button => 
     button.addEventListener('click', event => {
-        console.log(event.target.textContent);
+        if (subScreen.textContent === '') {
+            subScreen.textContent = `${mainScreen.textContent} ${event.target.textContent}`;
+        }
+        else if (/\d+\s.+/g.test(subScreen.textContent)) {
+            subScreen.textContent += ` ${mainScreen.textContent} =`;
+        }
+        count++;
+        
     })    
 )
 
