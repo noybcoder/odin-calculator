@@ -12,47 +12,46 @@ let count = 0;
 
 [...numberButtons].forEach(button => 
     button.addEventListener('click', event => {
-        if (/^0$/g.test(mainScreen.textContent)) {
-            mainScreen.textContent = '';
-        }
-        else if (mainScreen.textContent.length < 10) {
-            mainScreen.textContent += event.target.textContent;
-        }
-        else if (/\d+.+/g.test(subScreen.textContent)) {
-            mainScreen.textContent += event.target.textContent;
-        }
 
+        if (/^0$/g.test(mainScreen.innerHTML)) {
+            mainScreen.innerHTML = '';
+        } 
+  
+        mainScreen.innerHTML += event.target.innerHTML;
 
     })
 );
 
 [...operatorButtons].forEach(button => 
     button.addEventListener('click', event => {
-        if (subScreen.textContent === '') {
-            subScreen.textContent = `${mainScreen.textContent} ${event.target.textContent}`;
+        subScreen.classList.remove('hidden');
+        if (subScreen.innerHTML === '') {
+            subScreen.innerHTML = `${mainScreen.innerHTML} ${event.target.innerHTML}`;
         }
-        else if (/\d+\s.+/g.test(subScreen.textContent)) {
-            subScreen.textContent += ` ${mainScreen.textContent} =`;
+        else if (/\d+\s\+/g.test(subScreen.innerHTML)) {
+            subScreen.innerHTML += ` ${mainScreen.innerHTML} =`;
         }
-        count++;
         
     })    
 )
 
 // window.addEventListener('keydown', event => {
-//     if (/^0$/g.test(mainScreen.textContent) && /^\d$/g.test(event.key)) {
-//         mainScreen.textContent = '';
+//     if (/^0$/g.test(mainScreen.innerHTML) && /^\d$/g.test(event.key)) {
+//         mainScreen.innerHTML = '';
 //     }
-//     if (/^\d$/g.test(event.key) && mainScreen.textContent.length < 10) {
-//         mainScreen.textContent += event.key;
+//     if (/^\d$/g.test(event.key) && mainScreen.innerHTML.length < 10) {
+//         mainScreen.innerHTML += event.key;
 //     }
 
 // })
 
-// clearBtn.addEventListener('click', () => {
-//     mainScreen.textContent = 0;
-// })
+clearBtn.addEventListener('click', () => {
+    mainScreen.innerHTML = 0;
+    subScreen.classList.add('hidden');
+    subScreen.innerHTML = '';
+
+})
 
 // deleteBtn.addEventListener('click', () => {
-//     mainScreen.textContent = mainScreen.textContent.slice(0, -1) || 0;
+//     mainScreen.innerHTML = mainScreen.innerHTML.slice(0, -1) || 0;
 // })
