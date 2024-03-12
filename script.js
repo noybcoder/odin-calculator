@@ -4,6 +4,7 @@ const subScreen = document.getElementById('sub-screen');
 
 const numberButtons = document.getElementsByClassName('digits');
 const operatorButtons = document.getElementsByClassName('operators');
+const equalButton = document.getElementById('equal');
 
 const clearBtn = document.getElementById('clear');
 const deleteBtn = document.getElementById('backspace');
@@ -41,6 +42,38 @@ let operandB = 0;
     })    
 )
 
+equalButton.addEventListener('click', event => {
+    if (operandB !== '') {
+        output = operate(operandA, operator, operandB);
+        mainScreen.textContent = output;
+        subScreen.textContent = `${operandA} ${operator} ${operandB} =`;
+        operandA = output;
+        operandB = '';
+    }
+})
+
+function operate(opA, op, opB) {
+    let result = 0;
+    a = parseInt(opA);
+    b = parseInt(opB);
+
+    switch(op) {
+        case '+':
+            result = a + b;
+            break;
+        case '-':
+            result = a - b;
+            break;
+        case 'x':
+            result = a * b;
+            break;
+        case '➗':
+            result = a / b;
+            break
+    }
+    return result;
+}
+
 // window.addEventListener('keydown', event => {
 //     if (/^0$/g.test(mainScreen.innerHTML) && /^\d$/g.test(event.key)) {
 //         mainScreen.innerHTML = '';
@@ -55,6 +88,8 @@ clearBtn.addEventListener('click', () => {
     mainScreen.innerHTML = 0;
     subScreen.classList.add('hidden');
     subScreen.innerHTML = '';
+    operandA = operandB = 0;
+    operator = '';
 
 })
 
