@@ -8,16 +8,24 @@ const operatorButtons = document.getElementsByClassName('operators');
 const clearBtn = document.getElementById('clear');
 const deleteBtn = document.getElementById('backspace');
 
-let count = 0;
+let operandA = 0;
+let operator = '';
+let operandB = 0;
 
 [...numberButtons].forEach(button => 
     button.addEventListener('click', event => {
-
-        if (/^0$/g.test(mainScreen.innerHTML)) {
-            mainScreen.innerHTML = '';
-        } 
-  
-        mainScreen.innerHTML += event.target.innerHTML;
+        if (/^0$/g.test(mainScreen.textContent)) {
+            operandA = operandB = '';
+        }
+        if (operator === '') {
+            operandA += event.target.innerHTML;   
+            mainScreen.innerHTML = operandA;
+            console.log(operandA, operator);
+        } else {
+            operandB += event.target.innerHTML; 
+            mainScreen.innerHTML = operandB;
+            console.log(operandB);
+        }
 
     })
 );
@@ -25,13 +33,11 @@ let count = 0;
 [...operatorButtons].forEach(button => 
     button.addEventListener('click', event => {
         subScreen.classList.remove('hidden');
-        if (subScreen.innerHTML === '') {
-            subScreen.innerHTML = `${mainScreen.innerHTML} ${event.target.innerHTML}`;
-        }
-        else if (/\d+\s\+/g.test(subScreen.innerHTML)) {
-            subScreen.innerHTML += ` ${mainScreen.innerHTML} =`;
-        }
         
+        if (operandA !== '') {
+            operator = event.target.textContent;
+            subScreen.textContent = `${operandA} ${operator}`;
+        }
     })    
 )
 
