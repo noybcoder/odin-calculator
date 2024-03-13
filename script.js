@@ -46,27 +46,13 @@ let opBDecimal = 0;
 
 percentButton.addEventListener('click', event => {
     if (operator === '') {
-        operandA += event.target.innerHTML;   
+        operandA /= 100;   
         mainScreen.innerHTML = operandA;
     } else {
-        operandB += event.target.innerHTML; 
+        operandB /= 100; 
         mainScreen.innerHTML = operandB;
     }
 })
-
-// decialButton.addEventListener('click', event => {
-//     if (opADecimal === 0 || opBDecimal === 0) {
-//         if (operator === '') {
-//             operandA += event.target.textContent;
-//             mainScreen.innerHTML = operandA;
-//             opADecimal++;
-//         } else {
-//             operandB += event.target.innerHTML; 
-//             mainScreen.innerHTML = operandB;
-//             opBDecimal++;
-//         }
-//     }
-// })
 
 equalButton.addEventListener('click', event => {
     if (operandB !== '') {
@@ -100,25 +86,21 @@ function operate(opA, op, opB) {
     return result;
 }
 
-// window.addEventListener('keydown', event => {
-//     if (/^0$/g.test(mainScreen.innerHTML) && /^\d$/g.test(event.key)) {
-//         mainScreen.innerHTML = '';
-//     }
-//     if (/^\d$/g.test(event.key) && mainScreen.innerHTML.length < 10) {
-//         mainScreen.innerHTML += event.key;
-//     }
-
-// })
-
 clearBtn.addEventListener('click', () => {
     mainScreen.innerHTML = 0;
-    subScreen.classList.add('hidden');
     subScreen.innerHTML = '';
-    operandA = operandB = 0;
+    operandA = 0;
     operator = '';
+    operandB = 0;
 
 })
 
-// deleteBtn.addEventListener('click', () => {
-//     mainScreen.innerHTML = mainScreen.innerHTML.slice(0, -1) || 0;
-// })
+deleteBtn.addEventListener('click', () => {
+    if (operator === '') {
+        operandA = operandA.slice(0, -1) || 0;
+        mainScreen.innerHTML = operandA;
+    } else {
+        operandB = operandB.slice(0, -1) || 0;
+        mainScreen.innerHTML = operandB;
+    }
+})
