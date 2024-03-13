@@ -5,6 +5,8 @@ const subScreen = document.getElementById('sub-screen');
 const numberButtons = document.getElementsByClassName('digits');
 const operatorButtons = document.getElementsByClassName('operators');
 const equalButton = document.getElementById('equal');
+const decialButton = document.getElementById('period');
+const percentButton = document.getElementById('percentage');
 
 const clearBtn = document.getElementById('clear');
 const deleteBtn = document.getElementById('backspace');
@@ -12,6 +14,9 @@ const deleteBtn = document.getElementById('backspace');
 let operandA = 0;
 let operator = '';
 let operandB = 0;
+let opADecimal = 0;
+let opBDecimal = 0;
+
 
 [...numberButtons].forEach(button => 
     button.addEventListener('click', event => {
@@ -21,11 +26,9 @@ let operandB = 0;
         if (operator === '') {
             operandA += event.target.innerHTML;   
             mainScreen.innerHTML = operandA;
-            console.log(operandA, operator);
         } else {
             operandB += event.target.innerHTML; 
             mainScreen.innerHTML = operandB;
-            console.log(operandB);
         }
 
     })
@@ -33,18 +36,41 @@ let operandB = 0;
 
 [...operatorButtons].forEach(button => 
     button.addEventListener('click', event => {
-        subScreen.classList.remove('hidden');
-        
         if (operandA !== '') {
             operator = event.target.textContent;
             subScreen.textContent = `${operandA} ${operator}`;
-        }
+        } 
+
     })    
 )
 
+percentButton.addEventListener('click', event => {
+    if (operator === '') {
+        operandA += event.target.innerHTML;   
+        mainScreen.innerHTML = operandA;
+    } else {
+        operandB += event.target.innerHTML; 
+        mainScreen.innerHTML = operandB;
+    }
+})
+
+// decialButton.addEventListener('click', event => {
+//     if (opADecimal === 0 || opBDecimal === 0) {
+//         if (operator === '') {
+//             operandA += event.target.textContent;
+//             mainScreen.innerHTML = operandA;
+//             opADecimal++;
+//         } else {
+//             operandB += event.target.innerHTML; 
+//             mainScreen.innerHTML = operandB;
+//             opBDecimal++;
+//         }
+//     }
+// })
+
 equalButton.addEventListener('click', event => {
     if (operandB !== '') {
-        output = operate(operandA, operator, operandB);
+        const output = operate(operandA, operator, operandB);
         mainScreen.textContent = output;
         subScreen.textContent = `${operandA} ${operator} ${operandB} =`;
         operandA = output;
@@ -54,8 +80,8 @@ equalButton.addEventListener('click', event => {
 
 function operate(opA, op, opB) {
     let result = 0;
-    a = parseInt(opA);
-    b = parseInt(opB);
+    a = parseFloat(opA);
+    b = parseFloat(opB);
 
     switch(op) {
         case '+':
