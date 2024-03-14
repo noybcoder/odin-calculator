@@ -7,6 +7,7 @@ const operatorButtons = document.getElementsByClassName('operators');
 const equalButton = document.getElementById('equal');
 const decialButton = document.getElementById('period');
 const percentButton = document.getElementById('percentage');
+const decimalButton = document.getElementById('period');
 
 const clearBtn = document.getElementById('clear');
 const deleteBtn = document.getElementById('backspace');
@@ -14,8 +15,8 @@ const deleteBtn = document.getElementById('backspace');
 let operandA = 0;
 let operator = '';
 let operandB = 0;
-let opADecimal = 0;
-let opBDecimal = 0;
+let opADecimal = false;
+let opBDecimal = false;
 
 
 [...numberButtons].forEach(button => 
@@ -36,13 +37,29 @@ let opBDecimal = 0;
 
 [...operatorButtons].forEach(button => 
     button.addEventListener('click', event => {
-        if (operandA !== '') {
+        if (operator === '') {
             operator = event.target.textContent;
             subScreen.textContent = `${operandA} ${operator}`;
-        } 
-
+        } else {
+            const output = operate(operandA, operator, operandB);
+            mainScreen.textContent = output;   
+            operator = event.target.textContent;
+            subScreen.textContent = `${output} ${operator} `;
+            operandA = output;
+            operandB = ''; 
+        }
     })    
 )
+
+equalButton.addEventListener('click', event => {
+    if (operandB !== '') {
+        const output = operate(operandA, operator, operandB);
+        mainScreen.textContent = output;
+        subScreen.textContent = `${operandA} ${operator} ${operandB} =`;
+        operandA = output;
+        operandB = '';
+    }
+})
 
 percentButton.addEventListener('click', event => {
     if (operator === '') {
@@ -54,13 +71,17 @@ percentButton.addEventListener('click', event => {
     }
 })
 
-equalButton.addEventListener('click', event => {
-    if (operandB !== '') {
-        const output = operate(operandA, operator, operandB);
-        mainScreen.textContent = output;
-        subScreen.textContent = `${operandA} ${operator} ${operandB} =`;
-        operandA = output;
-        operandB = '';
+decimalButton.addEventListener('click', event => {
+    if ((!opADecimal) || (!opBDecimal)) {
+        if (operator === '') {
+            operandA += event.target.textContent;   
+            mainScreen.innerHTML = operandA;
+            opADecimal = true;
+        } else {
+            operandB += event.target.textContent;   
+            mainScreen.innerHTML = operandB;
+            opBDecimal = true;
+        }
     }
 })
 
@@ -87,12 +108,9 @@ function operate(opA, op, opB) {
 }
 
 clearBtn.addEventListener('click', () => {
-    mainScreen.innerHTML = 0;
-    subScreen.innerHTML = '';
-    operandA = 0;
-    operator = '';
-    operandB = 0;
-
+    mainScreen.innerHTML = operandA = operandB = 0;
+    subScreen.innerHTML = operator = '';
+    opADecimal = opBDecimal = false;
 })
 
 deleteBtn.addEventListener('click', () => {
