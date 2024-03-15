@@ -15,7 +15,6 @@ const deleteBtn = document.getElementById('backspace');
 let operandA = 0;
 let operator = '';
 let operandB = 0;
-let outcome = 0;
 let opADecimal = false;
 let opBDecimal = false;
 
@@ -42,8 +41,8 @@ let opBDecimal = false;
             operator = event.target.textContent;
             subScreen.textContent = `${operandA} ${operator}`;
         } else {
-            outcome = operate(operandA, operator, operandB);
-            operandA = outcome;   
+            const output = operate(operandA, operator, operandB);
+            operandA = output;   
             mainScreen.textContent = operandA;
             operator = event.target.textContent;
             subScreen.textContent = `${operandA} ${operator} `;
@@ -55,8 +54,8 @@ let opBDecimal = false;
 //     if (operator === '') {
 //         subScreen.textContent = `${operandA} =`;
 //     } else {
-//         outcome = operate(operandA, operator, operandB);
-//         operandA = mainScreen.textContent = outcome;
+//         const output = operate(operandA, operator, operandB);
+//         operandA = mainScreen.textContent = output;
 //         subScreen.textContent = `${operandA} ${operator} ${operandB} =`;
 //         operandB = '';
 //     }
