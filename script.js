@@ -1,7 +1,6 @@
 const mainScreen = document.getElementById('main-screen');
 const subScreen = document.getElementById('sub-screen');
 
-
 const numberButtons = document.getElementsByClassName('digits');
 const operatorButtons = document.getElementsByClassName('operators');
 const equalButton = document.getElementById('equal');
@@ -13,12 +12,42 @@ const negateButton = document.getElementById('negation');
 const clearBtn = document.getElementById('clear');
 const deleteBtn = document.getElementById('backspace');
 
-let operandA = '';
-let operator = '';
-let operandB = '';
-let opADecimal = false;
-let opBDecimal = false;
+let operandA = '', operator = '', operandB = '';
+let opADecimal = false, opBDecimal = false;
 
+function operate(opA, op, opB) {
+    let result = 0;
+    a = parseFloat(opA);
+    b = parseFloat(opB);
+
+    switch(op) {
+        case '+':
+            result = a + b;
+            break;
+        case '-':
+            result = a - b;
+            break;
+        case 'x':
+            result = a * b;
+            break;
+        case '➗':
+            result = a / b;
+            break
+    }
+    return result;
+}
+
+window.addEventListener('keydown', event => {
+    if (/^\d$/g.test(event.key)) {
+        if (operator === '') {
+            operandA += event.key;   
+            mainScreen.textContent = operandA;
+        } else {
+            operandB += event.key; 
+            mainScreen.textContent = operandB;
+        }
+    }
+});
 
 [...numberButtons].forEach(button => 
     button.addEventListener('click', event => {
@@ -83,47 +112,28 @@ negateButton.addEventListener('click', event => {
     }
 })
 
-// decimalButton.addEventListener('click', event => {
-//     if (!opADecimal) {
-//         operandA ||= 0;
-//         operandA += event.target.textContent;
-//         mainScreen.textContent = operandA;
-//         opADecimal = true;
-//     } 
-//     if (!opBDecimal) {
-//         operandB ||= 0;
-//         operandB += event.target.textContent;
-//         mainScreen.textContent = operandB;
-//         opBDecimal = true;
-//     } 
-// })
-
-function operate(opA, op, opB) {
-    let result = 0;
-    a = parseFloat(opA);
-    b = parseFloat(opB);
-
-    switch(op) {
-        case '+':
-            result = a + b;
-            break;
-        case '-':
-            result = a - b;
-            break;
-        case 'x':
-            result = a * b;
-            break;
-        case '➗':
-            result = a / b;
-            break
+decimalButton.addEventListener('click', event => {
+    if (operator === '') {
+        if (!opADecimal) {
+            operandA ||= 0;
+            operandA += event.target.textContent;
+            mainScreen.textContent = operandA;
+            opADecimal = true;
+        }
+    } else {
+        if (!opBDecimal) {
+            operandB ||=0;
+            operandB += event.target.textContent;
+            mainScreen.textContent = operandB;
+            opBDecimal = true;
+        }
     }
-    return result;
-}
+})
 
 clearBtn.addEventListener('click', () => {
     mainScreen.textContent = 0;
     operandA = operandB = operator = subScreen.textContent = '';
-    opADecimal = opBDecimal = false;
+    opADecimal = opBDecimal = 0;
 })
 
 deleteBtn.addEventListener('click', () => {
