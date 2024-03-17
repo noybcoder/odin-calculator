@@ -28,54 +28,66 @@ function operate(opA, op, opB) {
             result = a - b;
             break;
         case 'x':
+        case '*':
             result = a * b;
             break;
         case '➗':
+        case '/':
             result = a / b;
             break
     }
     return result;
 }
 
+function insertButton(operand, object) {
+    operand += object;
+    return operand;
+}
+
+function setMainScreen(operand) {
+    mainScreen.textContent = parseFloat(operand);
+}
+
+function setOperandNumber(operand, object) {
+    op = insertButton(operand, object);
+    setMainScreen(op);
+    return op;
+}
+
 window.addEventListener('keydown', event => {
     if (/^\d$/g.test(event.key)) {
-        if (operator === '') {
-            operandA += event.key;   
-            mainScreen.textContent = operandA;
-        } else {
-            operandB += event.key; 
-            mainScreen.textContent = operandB;
+        operator === ''?
+            operandA = setOperandNumber(operandA, event.key): 
+            operandB = setOperandNumber(operandB, event.key);
+    } else if(/[\+\*//-]/g.test(event.key)) {
+        if (operandB !== '') {
+            const outcome = operate(operandA , operator, operandB);
+            operandA =  mainScreen.textContent = outcome;
+            operandB = '';
         }
+        operator = event.key;
+        subScreen.textContent = `${operandA} ${operator}`;
     }
+    
 });
 
 [...numberButtons].forEach(button => 
     button.addEventListener('click', event => {
-        if (operator === '') {
-            operandA += event.target.textContent;   
-            mainScreen.textContent = operandA;
-        } else {
-            operandB += event.target.textContent; 
-            mainScreen.textContent = operandB;
-        }
-
+        operator === ''?
+            operandA = setOperandNumber(operandA, event.target.textContent): 
+            operandB = setOperandNumber(operandB, event.target.textContent);
     })
 );
 
 [...operatorButtons].forEach(button => 
     button.addEventListener('click', event => {
-        if (operator === '') {
-            operator = event.target.textContent;
-            subScreen.textContent = `${operandA} ${operator}`;
-        } else {
-            if (operandB !== '') {
-                const outcome = operate(operandA , operator, operandB);
-                operandA =  mainScreen.textContent = outcome;
-                operandB = '';
-            }
-            operator = event.target.textContent;
-            subScreen.textContent = `${operandA} ${operator}`;            
+        if (operandB !== '') {
+            const outcome = operate(operandA , operator, operandB);
+            operandA =  mainScreen.textContent = outcome;
+            operandB = '';
         }
+        operator = event.target.textContent;
+        subScreen.textContent = `${operandA} ${operator}`;
     })    
 )
 
@@ -133,7 +145,7 @@ decimalButton.addEventListener('click', event => {
 clearBtn.addEventListener('click', () => {
     mainScreen.textContent = 0;
     operandA = operandB = operator = subScreen.textContent = '';
-    opADecimal = opBDecimal = 0;
+    opADecimal = opBDecimal = false;
 })
 
 deleteBtn.addEventListener('click', () => {
