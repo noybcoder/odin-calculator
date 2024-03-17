@@ -42,10 +42,10 @@ function operate(opA, op, opB) {
 function setOperandButton(object) {
     if (!operator) {
         operandA += object;
-        mainScreen.textContent = operandA;
+        mainScreen.textContent = parseFloat(operandA);
     } else {
         operandB += object;
-        mainScreen.textContent = operandB;
+        mainScreen.textContent = parseFloat(operandB);
     }
 }
 
@@ -55,6 +55,8 @@ function getOperator(object) {
 }
 
 function setOperatorButton(object) {
+    operandA ||= 0;
+
     if (operandB !== '') {
         const outcome = operate(operandA , operator, operandB);
         operandA =  mainScreen.textContent = outcome;
@@ -65,10 +67,12 @@ function setOperatorButton(object) {
 }
 
 function setEqualButton() {
+    operandA ||= 0;
+
     if (!operator) {
         subScreen.textContent = `${operandA} =`;
     } else {
-        if (operandB === '') {
+        if (!operandB) {
             operandB = operandA;
         }
         const outcome = operate(operandA, operator, operandB);
@@ -82,9 +86,10 @@ window.addEventListener('keydown', event => {
         setOperandButton(event.key);
     } else if(/[\+\*//-]/g.test(event.key)) {
         setOperatorButton(event.key);
-    } else if(/Enter/g.test(event.key)) {
+    } else if(/Enter|=/g.test(event.key)) {
         setEqualButton();
     }    
+    console.log(event.key);
 });
 
 [...numberButtons].forEach(button => 
