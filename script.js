@@ -36,16 +36,16 @@ function operate(opA, op, opB) {
             result = a / b;
             break
     }
-    return result;
+    return result.toLocaleString();
 }
 
 function setOperandButton(object) {
     if (!operator) {
         operandA += object;
-        mainScreen.textContent = parseFloat(operandA);
+        mainScreen.textContent = parseFloat(operandA).toLocaleString();
     } else {
         operandB += object;
-        mainScreen.textContent = parseFloat(operandB);
+        mainScreen.textContent = parseFloat(operandB).toLocaleString();
     }
 }
 
