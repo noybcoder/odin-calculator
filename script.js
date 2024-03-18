@@ -12,7 +12,7 @@ const negateButton = document.getElementById('negation');
 const clearBtn = document.getElementById('clear');
 const deleteBtn = document.getElementById('backspace');
 
-let operandA = '', operator = '', operandB = '';
+let operandA = 0, operator = '', operandB = 0;
 let opADecimal = false, opBDecimal = false;
 
 function operate(opA, op, opB) {
@@ -42,11 +42,15 @@ function operate(opA, op, opB) {
 function setOperandButton(object) {
     if (!operator) {
         operandA += object;
-        mainScreen.textContent = parseFloat(operandA).toLocaleString();
-    } else {
-        operandB += object;
-        mainScreen.textContent = parseFloat(operandB).toLocaleString();
+        operandA = parseFloat(operandA);
+        mainScreen.textContent = operandA.toLocaleString();    
     }
+     else {
+        operandB += object;
+        operandB = parseFloat(operandB);
+        mainScreen.textContent = operandB.toLocaleString();
+    }
+    
 }
 
 function getOperator(object) {
@@ -55,26 +59,23 @@ function getOperator(object) {
 }
 
 function setOperatorButton(object) {
-    operandA ||= 0;
-
-    if (operandB !== '') {
-        const outcome = operate(operandA , operator, operandB);
-        operandA =  mainScreen.textContent = outcome;
-        operandB = '';
+    if (operandB) {
+        const outcome = operate(operandA, operator, operandB);
+        operandA = outcome;
+        mainScreen.textContent = outcome;
+        operandB = 0;
     }
     operator = getOperator(object);
     subScreen.textContent = `${operandA} ${operator}`;
 }
 
 function setEqualButton() {
-    operandA ||= 0;
-
     if (!operator) {
         subScreen.textContent = `${operandA} =`;
     } else {
         if (!operandB) {
             operandB = operandA;
-        }
+        } 
         const outcome = operate(operandA, operator, operandB);
         operandA = mainScreen.textContent = outcome;
         subScreen.textContent = `${operandA} ${operator} ${operandB} =`;
@@ -152,10 +153,12 @@ clearBtn.addEventListener('click', () => {
 
 deleteBtn.addEventListener('click', () => {
     if (!operator) {
-        operandA = operandA.slice(0, -1) || 0;
+        operandA = Math.floor(operandA / 10);
         mainScreen.textContent = operandA;
     } else {
-        operandB = operandB.slice(0, -1) || 0;
-        mainScreen.textContent = operandB;
+        if (operandB) {
+            operandB = Math.floor(operandB / 10);
+            mainScreen.textContent = operandB;
+        }
     }
 })
