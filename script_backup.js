@@ -1,89 +1,19 @@
 const mainScreen = document.getElementById('main-screen');
 const subScreen = document.getElementById('sub-screen');
 
-
 const numberButtons = document.getElementsByClassName('digits');
 const operatorButtons = document.getElementsByClassName('operators');
 const equalButton = document.getElementById('equal');
 const decialButton = document.getElementById('period');
 const percentButton = document.getElementById('percentage');
 const decimalButton = document.getElementById('period');
+const negateButton = document.getElementById('negation');
 
 const clearBtn = document.getElementById('clear');
 const deleteBtn = document.getElementById('backspace');
 
-let operandA = 0;
-let operator = '';
-let operandB = 0;
-let opADecimal = false;
-let opBDecimal = false;
-
-
-[...numberButtons].forEach(button => 
-    button.addEventListener('click', event => {
-        if (/^0$/g.test(mainScreen.textContent)) {
-            operandA = operandB = '';
-        }
-        if (operator === '') {
-            operandA += event.target.innerHTML;   
-            mainScreen.innerHTML = operandA;
-        } else {
-            operandB += event.target.innerHTML; 
-            mainScreen.innerHTML = operandB;
-        }
-
-    })
-);
-
-[...operatorButtons].forEach(button => 
-    button.addEventListener('click', event => {
-        if (operator === '') {
-            operator = event.target.textContent;
-            subScreen.textContent = `${operandA} ${operator}`;
-        } else {
-            const output = operate(operandA, operator, operandB);
-            operandA = output;   
-            mainScreen.textContent = operandA;
-            operator = event.target.textContent;
-            subScreen.textContent = `${operandA} ${operator} `;
-        }
-    })    
-)
-
-// equalButton.addEventListener('click', event => {
-//     if (operator === '') {
-//         subScreen.textContent = `${operandA} =`;
-//     } else {
-//         const output = operate(operandA, operator, operandB);
-//         operandA = mainScreen.textContent = output;
-//         subScreen.textContent = `${operandA} ${operator} ${operandB} =`;
-//         operandB = '';
-//     }
-// })
-
-percentButton.addEventListener('click', event => {
-    if (operator === '') {
-        operandA /= 100;   
-        mainScreen.innerHTML = operandA;
-    } else {
-        operandB /= 100; 
-        mainScreen.innerHTML = operandB;
-    }
-})
-
-decimalButton.addEventListener('click', event => {
-    if ((!opADecimal) || (!opBDecimal)) {
-        if (operator === '') {
-            operandA += event.target.textContent;   
-            mainScreen.innerHTML = operandA;
-            opADecimal = true;
-        } else {
-            operandB += event.target.textContent;   
-            mainScreen.innerHTML = operandB;
-            opBDecimal = true;
-        }
-    }
-})
+let operandA = 0, operator = '', operandB = 0;
+let opADecimal = false, opBDecimal = false;
 
 function operate(opA, op, opB) {
     let result = 0;
@@ -98,27 +28,140 @@ function operate(opA, op, opB) {
             result = a - b;
             break;
         case 'x':
+        case '*':
             result = a * b;
             break;
         case '➗':
+        case '/':
             result = a / b;
             break
     }
     return result;
 }
 
+function setOperandButton(object) {
+    if (!operator) {
+        operandA += object;
+        operandA = parseFloat(operandA);
+        mainScreen.textContent = operandA;    
+    }
+     else {
+        operandB += object;
+        operandB = parseFloat(operandB);
+        mainScreen.textContent = operandB;
+    }
+    
+}
+
+function getOperator(object) {
+    let operators = {'*': 'x', '/': '➗'};
+    return /[\*//]/g.test(object)? operators[object]: object;
+}
+
+function setOperatorButton(object) {
+    if (operandB) {
+        const outcome = operate(operandA, operator, operandB);
+        operandA = outcome;
+        mainScreen.textContent = outcome;
+        operandB = 0;
+    }
+    operator = getOperator(object);
+    subScreen.textContent = `${operandA} ${operator}`;
+}
+
+function setEqualButton() {
+    if (!operator) {
+        subScreen.textContent = `${operandA} =`;
+    } else {
+        if (!operandB) {
+            operandB = operandA;
+        }
+        const outcome = operate(operandA, operator, operandB);
+        operandA = mainScreen.textContent = outcome;
+        subScreen.textContent = `${operandA} ${operator} ${operandB} =`;
+        operator = '';
+        operandB = 0;
+
+        
+    } 
+}
+
+window.addEventListener('keydown', event => {
+    if (/^\d$/g.test(event.key)) {
+        setOperandButton(event.key);
+    } else if(/[\+\*//-]/g.test(event.key)) {
+        setOperatorButton(event.key);
+    } else if(/Enter|=/g.test(event.key)) {
+        setEqualButton();
+    }    
+    console.log(event.key);
+});
+
+[...numberButtons].forEach(button => 
+    button.addEventListener('click', event => {
+        setOperandButton(event.target.textContent);
+    })
+);
+
+[...operatorButtons].forEach(button => 
+    button.addEventListener('click', event => {
+        setOperatorButton(event.target.textContent);
+    })    
+)
+
+equalButton.addEventListener('click', setEqualButton);
+
+percentButton.addEventListener('click', () => {
+    if (!operator) {
+        operandA /= 100;   
+        mainScreen.textContent = operandA;
+    } else {
+        operandB /= 100; 
+        mainScreen.textContent = operandB;
+    }
+})
+
+negateButton.addEventListener('click', () => {
+    if (!operator) {
+        operandA = -operandA;
+        mainScreen.textContent = operandA;
+    } else {
+        operandB = -operandB;
+        mainScreen.textContent = operandB;
+    }
+})
+
+decimalButton.addEventListener('click', event => {
+    if (!operator) {
+        if (!opADecimal) {
+            operandA += event.target.textContent;
+            mainScreen.textContent = operandA;
+            opADecimal = true;
+        }
+    } else {
+        if (!opBDecimal) {
+            operandB += event.target.textContent;
+            mainScreen.textContent = operandB;
+            opBDecimal = true;
+        }
+    }
+})
+
 clearBtn.addEventListener('click', () => {
-    mainScreen.innerHTML = operandA = operandB = 0;
-    subScreen.innerHTML = operator = '';
+    mainScreen.textContent = 0;
+    operandA = operandB = 0
+    operator = subScreen.textContent = '';
     opADecimal = opBDecimal = false;
 })
 
 deleteBtn.addEventListener('click', () => {
-    if (operator === '') {
-        operandA = operandA.slice(0, -1) || 0;
-        mainScreen.innerHTML = operandA;
+    if (!operator) {
+        operandA = Math.floor(operandA / 10);
+        mainScreen.textContent = operandA.toLocaleString();
     } else {
-        operandB = operandB.slice(0, -1) || 0;
-        mainScreen.innerHTML = operandB;
+        if (operandB) {
+            operandB = Math.floor(operandB / 10);
+            mainScreen.textContent = operandB.toLocaleString();
+        }
     }
 })
