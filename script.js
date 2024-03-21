@@ -44,13 +44,18 @@ function setOperandButton(object) {
     if (!operator) {
         operandA += object;
         operandA = parseFloat(operandA);
-        mainScreen.textContent = operandA; 
+        mainScreen.textContent = operandA;
     }
      else {
+        if (outcome) {
+            operandA = 0;
+            operandA += object;
+        }
         operandB += object;
         operandB = parseFloat(operandB);
-        mainScreen.textContent = operandB;  
+        mainScreen.textContent = operandB;
     }
+    console.log(operandA, operator, operandB, outcome);
 }
 
 function getOperator(object) {
@@ -59,33 +64,15 @@ function getOperator(object) {
 }
 
 function setOperatorButton(object) {
-    if (operandB) {
-        operandA = operate(operandA, operator, operandB);
-        mainScreen.textContent = operandA;
-        operandB = 0;
-        operator = '';
-    }
     operator = getOperator(object);
     subScreen.textContent = `${operandA} ${operator}`;
-
 }
 
 function setEqualButton() {
-    if (!operator) {
-        subScreen.textContent = `${operandA} =`;
-    } else {
-        if (!operandB) {
-            operandB = operandA;
-        }
-        outcome = operate(operandA, operator, operandB);
-        operandA = mainScreen.textContent = outcome;
-        subScreen.textContent = `${operandA} ${operator} ${operandB} =`;
-        operandA = 0;
-        operator = '';
-        operandB = 0;
-        outcome = 0;
-
-    } 
+    outcome = operate(operandA, operator, operandB);
+    subScreen.textContent = `${operandA} ${operator} ${operandB} =`;
+    operandA = outcome;
+    mainScreen.textContent = outcome;
 }
 
 window.addEventListener('keydown', event => {
@@ -157,14 +144,12 @@ clearBtn.addEventListener('click', () => {
 
 deleteBtn.addEventListener('click', () => {
     if (!operator) {
-        if (!subScreen.textContent.includes('=')) {
-            operandA = operandA.toString().slice(0, -1) || 0;
-            mainScreen.textContent = operandA;    
-        }
+        operandA = operandA.toString().slice(0, -1) || 0;
+        mainScreen.textContent = operandA;
     } else {
-        if (!subScreen.textContent.includes('=')) {
+        if (operandB) {
             operandB = operandB.toString().slice(0, -1) || 0;
-            mainScreen.textContent = operandB;    
-        }    
+            mainScreen.textContent = operandB;
+        }
     }
 })
