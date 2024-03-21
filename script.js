@@ -42,20 +42,20 @@ function operate(opA, op, opB) {
 
 function setOperandButton(object) {
     if (!operator) {
+        if (operandB) {
+            operator = '';
+        }
         operandA += object;
         operandA = parseFloat(operandA);
         mainScreen.textContent = operandA;
+        console.log(operandA, operator, operandB, outcome);
     }
      else {
-        if (outcome) {
-            operandA = 0;
-            operandA += object;
-        }
         operandB += object;
         operandB = parseFloat(operandB);
         mainScreen.textContent = operandB;
+        console.log(operandA, operator, operandB, outcome);
     }
-    console.log(operandA, operator, operandB, outcome);
 }
 
 function getOperator(object) {
@@ -69,8 +69,8 @@ function setOperatorButton(object) {
 }
 
 function setEqualButton() {
-    outcome = operate(operandA, operator, operandB);
     subScreen.textContent = `${operandA} ${operator} ${operandB} =`;
+    outcome = operate(operandA, operator, operandB);
     operandA = outcome;
     mainScreen.textContent = outcome;
 }
