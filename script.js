@@ -42,19 +42,16 @@ function operate(opA, op, opB) {
 
 function setOperandButton(object) {
     if (!operator) {
-        if (operandB) {
-            operator = '';
-        }
         operandA += object;
         operandA = parseFloat(operandA);
         mainScreen.textContent = operandA;
-        console.log(operandA, operator, operandB, outcome);
+        console.log('from operandA', operandA, operator, operandB, outcome);
     }
      else {
         operandB += object;
         operandB = parseFloat(operandB);
         mainScreen.textContent = operandB;
-        console.log(operandA, operator, operandB, outcome);
+        console.log('from operandB', operandA, operator, operandB, outcome);
     }
 }
 
