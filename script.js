@@ -14,7 +14,7 @@ const deleteBtn = document.getElementById('backspace');
 
 let operandA = 0, operandB = 0, outcome = 0;
 let operator = '';
-let opADecimal = false, opBDecimal = false;
+let opADecimal = false, opBDecimal = false, isEvaluated = false;
 
 function operate(opA, op, opB) {
     let result = 0;
@@ -45,13 +45,13 @@ function setOperandButton(object) {
         operandA += object;
         operandA = parseFloat(operandA);
         mainScreen.textContent = operandA;
-        console.log('from operandA', operandA, operator, operandB, outcome);
+        console.log(operandA, operator, operandB, outcome);
     }
-     else {
+    else {
         operandB += object;
         operandB = parseFloat(operandB);
-        mainScreen.textContent = operandB;
-        console.log('from operandB', operandA, operator, operandB, outcome);
+        mainScreen.textContent = operandB; 
+        console.log(operandA, operator, operandB, outcome);
     }
 }
 
@@ -69,7 +69,7 @@ function setEqualButton() {
     subScreen.textContent = `${operandA} ${operator} ${operandB} =`;
     outcome = operate(operandA, operator, operandB);
     operandA = outcome;
-    mainScreen.textContent = outcome;
+    mainScreen.textContent = operandA;
 }
 
 window.addEventListener('keydown', event => {
@@ -79,7 +79,7 @@ window.addEventListener('keydown', event => {
         setOperatorButton(event.key);
     } else if(/Enter|=/g.test(event.key)) {
         setEqualButton();
-    }    
+    }
 });
 
 [...numberButtons].forEach(button => 
