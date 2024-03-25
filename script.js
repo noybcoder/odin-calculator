@@ -12,8 +12,8 @@ const negateButton = document.getElementById('negation');
 const clearBtn = document.getElementById('clear');
 const deleteBtn = document.getElementById('backspace');
 
-let operandA = 0, operandB = 0, outcome = 0;
-let operator = '';
+let operandA = 0, operandB = 0;
+let operator = '', operatorT = '';
 let opADecimal = false, opBDecimal = false, isEvaluated = false;
 
 function operate(opA, op, opB) {
@@ -59,21 +59,23 @@ function getOperator(object) {
 }
 
 function setOperatorButton(object) {
-    if (!operandB) {
-        operator = getOperator(object);
-        subScreen.textContent = `${operandA} ${operator}`;
-    } else {
+    if (operandB) {
         operandA = operate(operandA, operator, operandB);
         mainScreen.textContent = operandA;
-        operandB = 0;    
+        operandB = 0;
     }
+    operator = getOperator(object);
+    subScreen.textContent = `${operandA} ${operator}`;
+
 }
 
 function setEqualButton() {
-    // subScreen.textContent = `${operandA} ${operator} ${operandB} =`;
-    // outcome = operate(operandA, operator, operandB);
-    // operandA = outcome;
-    // mainScreen.textContent = operandA;
+    // if (operator) {
+    //     operandB ||= operandA
+    //     operandA = operate(operandA, operator, operandB);
+    //     mainScreen.textContent = operandA;
+    //     subScreen.textContent = `${operandA} ${operator} ${operandB}`;
+    // }
 }
 
 window.addEventListener('keydown', event => {
