@@ -45,13 +45,11 @@ function setOperandButton(object) {
         operandA += object;
         operandA = parseFloat(operandA);
         mainScreen.textContent = operandA;
-        console.log(operandA, operator, operandB, outcome);
     }
     else {
         operandB += object;
         operandB = parseFloat(operandB);
         mainScreen.textContent = operandB; 
-        console.log(operandA, operator, operandB, outcome);
     }
 }
 
@@ -61,15 +59,21 @@ function getOperator(object) {
 }
 
 function setOperatorButton(object) {
-    operator = getOperator(object);
-    subScreen.textContent = `${operandA} ${operator}`;
+    if (!operandB) {
+        operator = getOperator(object);
+        subScreen.textContent = `${operandA} ${operator}`;
+    } else {
+        operandA = operate(operandA, operator, operandB);
+        mainScreen.textContent = operandA;
+        operandB = 0;    
+    }
 }
 
 function setEqualButton() {
-    subScreen.textContent = `${operandA} ${operator} ${operandB} =`;
-    outcome = operate(operandA, operator, operandB);
-    operandA = outcome;
-    mainScreen.textContent = operandA;
+    // subScreen.textContent = `${operandA} ${operator} ${operandB} =`;
+    // outcome = operate(operandA, operator, operandB);
+    // operandA = outcome;
+    // mainScreen.textContent = operandA;
 }
 
 window.addEventListener('keydown', event => {
