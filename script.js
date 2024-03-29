@@ -75,9 +75,8 @@ function setEqualButton() {
     operator ||= opT;
     outcome = operate(operandA, operator, operandB);
     subScreen.textContent = `${operandA} ${operator} ${operandB} =`;
-    operandA = outcome;
-    mainScreen.textContent = operandA;
-    opdA = operandA;
+    mainScreen.textContent = outcome;
+    opdA = outcome;
     opdB = operandB;
     opT = operator;
     operator = '';
@@ -146,8 +145,8 @@ decimalButton.addEventListener('click', event => {
 
 clearBtn.addEventListener('click', () => {
     mainScreen.textContent = 0;
-    operandA = operandB = 0
-    operator = subScreen.textContent = '';
+    operandA = operandB = opdA = opdB = 0;
+    operator = opT = subScreen.textContent = '';
     opADecimal = opBDecimal = false;
 })
 
