@@ -12,7 +12,8 @@ const negateButton = document.getElementById('negation');
 const clearBtn = document.getElementById('clear');
 const deleteBtn = document.getElementById('backspace');
 
-let operandA = 0, operator = '', operandB = 0;
+let operandA = 0, operandB = 0, opdA = 0, opdB = 0;
+let operator = '', opT = '';
 let opADecimal = false, opBDecimal = false;
 
 function operate(opA, op, opB) {
@@ -43,14 +44,13 @@ function setOperandButton(object) {
     if (!operator) {
         operandA += object;
         operandA = parseFloat(operandA);
-        mainScreen.textContent = operandA;    
+        mainScreen.textContent = operandA;
     }
-     else {
+    else {
         operandB += object;
         operandB = parseFloat(operandB);
-        mainScreen.textContent = operandB;
+        mainScreen.textContent = operandB; 
     }
-    
 }
 
 function getOperator(object) {
@@ -60,30 +60,31 @@ function getOperator(object) {
 
 function setOperatorButton(object) {
     if (operandB) {
-        const outcome = operate(operandA, operator, operandB);
-        operandA = outcome;
-        mainScreen.textContent = outcome;
+        operandB ||= opdB;
+        operandA = operate(operandA, operator, operandB);
+        mainScreen.textContent = operandA;
+        opdB = operandA || operandB;
         operandB = 0;
     }
+    operandA ||= opdA;
     operator = getOperator(object);
     subScreen.textContent = `${operandA} ${operator}`;
 }
 
 function setEqualButton() {
-    if (!operator) {
-        subScreen.textContent = `${operandA} =`;
-    } else {
-        if (!operandB) {
-            operandB = operandA;
-        }
-        const outcome = operate(operandA, operator, operandB);
-        operandA = mainScreen.textContent = outcome;
-        subScreen.textContent = `${operandA} ${operator} ${operandB} =`;
-        operator = '';
-        operandB = 0;
-
-        
-    } 
+    operandA ||= opdA;
+    operandB ||= opdB;
+    operator ||= opT;
+    subScreen.textContent = `${operandA} ${operator} ${operandB} =`;
+    operandA = operate(operandA, operator, operandB);
+    mainScreen.textContent = operandA;
+    opdA = operandA;
+    operandA = 0;
+    opdB = operandA || operandB;
+    console.log(operandB);
+    operandB = 0;
+    opT = operator;
+    operator = '';
 }
 
 window.addEventListener('keydown', event => {
@@ -93,8 +94,7 @@ window.addEventListener('keydown', event => {
         setOperatorButton(event.key);
     } else if(/Enter|=/g.test(event.key)) {
         setEqualButton();
-    }    
-    console.log(event.key);
+    }
 });
 
 [...numberButtons].forEach(button => 
@@ -149,19 +149,19 @@ decimalButton.addEventListener('click', event => {
 
 clearBtn.addEventListener('click', () => {
     mainScreen.textContent = 0;
-    operandA = operandB = 0
-    operator = subScreen.textContent = '';
+    operandA = operandB = opdA = opdB = 0;
+    operator = opT = subScreen.textContent = '';
     opADecimal = opBDecimal = false;
 })
 
 deleteBtn.addEventListener('click', () => {
     if (!operator) {
-        operandA = Math.floor(operandA / 10);
-        mainScreen.textContent = operandA.toLocaleString();
+        operandA = operandA.toString().slice(0, -1) || 0;
+        mainScreen.textContent = operandA;
     } else {
         if (operandB) {
-            operandB = Math.floor(operandB / 10);
-            mainScreen.textContent = operandB.toLocaleString();
+            operandB = operandB.toString().slice(0, -1) || 0;
+            mainScreen.textContent = operandB;
         }
     }
 })
