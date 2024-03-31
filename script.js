@@ -65,6 +65,8 @@ function setOperatorButton(object) {
         mainScreen.textContent = operandA;
         opdB = operandA || operandB;
         operandB = 0;
+    } else {
+        opdB = opdA || opdB;
     }
     operandA ||= opdA;
     operator = getOperator(object);
