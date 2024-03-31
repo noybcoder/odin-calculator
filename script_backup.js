@@ -73,18 +73,23 @@ function setOperatorButton(object) {
 
 function setEqualButton() {
     operandA ||= opdA;
-    operandB ||= opdB;
-    operator ||= opT;
-    subScreen.textContent = `${operandA} ${operator} ${operandB} =`;
-    operandA = operate(operandA, operator, operandB);
-    mainScreen.textContent = operandA;
+
+    if (!operator && !opT) {
+        subScreen.textContent = `${operandA} =`;
+    } else {
+        operandB ||= opdB;
+        operator ||= opT;
+        subScreen.textContent = `${operandA} ${operator} ${operandB} =`;
+        operandA = operate(operandA, operator, operandB);
+        mainScreen.textContent = operandA;
+        opdB = operandB;
+        opT = operator;
+        operandB = 0;
+        operator = '';
+    }
+
     opdA = operandA;
     operandA = 0;
-    opdB = operandA || operandB;
-    console.log(operandB);
-    operandB = 0;
-    opT = operator;
-    operator = '';
 }
 
 window.addEventListener('keydown', event => {
@@ -157,10 +162,12 @@ clearBtn.addEventListener('click', () => {
 deleteBtn.addEventListener('click', () => {
     if (!operator) {
         operandA = operandA.toString().slice(0, -1) || 0;
+        opdA = operandA;
         mainScreen.textContent = operandA;
     } else {
         if (operandB) {
             operandB = operandB.toString().slice(0, -1) || 0;
+            opdB = operandB;
             mainScreen.textContent = operandB;
         }
     }
