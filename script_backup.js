@@ -69,15 +69,13 @@ function setOperatorButton(object) {
         opdB = opdA || opdB;
     }
     operandA ||= opdA;
-    opdB ||= operandA;
     operator = getOperator(object);
     subScreen.textContent = `${operandA} ${operator}`;
-
+    opdB = operandA || operendB;
 }
 
 function setEqualButton() {
     operandA ||= opdA;
-
     if (!operator && !opT) {
         subScreen.textContent = `${operandA} =`;
     } else {
@@ -91,7 +89,6 @@ function setEqualButton() {
         operandB = 0;
         operator = '';
     }
-
     opdA = operandA;
     operandA = 0;
 }
