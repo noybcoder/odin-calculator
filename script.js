@@ -12,7 +12,7 @@ const negateButton = document.getElementById('negation');
 const clearBtn = document.getElementById('clear');
 const deleteBtn = document.getElementById('backspace');
 
-let operandA = 0, operandB = 0, opdA = 0, opdB = 0;
+let operandA = '', operandB = '', opdA = '', opdB = '';
 let operator = '', opT = '';
 let opADecimal = false, opBDecimal = false;
 
@@ -43,12 +43,10 @@ function operate(opA, op, opB) {
 function setOperandButton(object) {
     if (!operator) {
         operandA += object;
-        operandA = parseFloat(operandA);
         mainScreen.textContent = operandA;
     }
     else {
         operandB += object;
-        operandB = parseFloat(operandB);
         mainScreen.textContent = operandB; 
     }
 }
@@ -59,11 +57,11 @@ function getOperator(object) {
 }
 
 function setOperatorButton(object) {
-    if (operandB) {
+    if (operandB !== '') {
         operandB ||= opdB;
         operandA = operate(operandA, operator, operandB);
-        mainScreen.textContent = operandA;
-        operandB = 0;
+        mainScreen.textContent = operandA === Infinity? 'Cannot divide by zero': operandA;
+        operandB = '';
     } 
     operandA ||= opdA;
     operator = getOperator(object);
@@ -80,14 +78,14 @@ function setEqualButton() {
         operator ||= opT;
         subScreen.textContent = `${operandA} ${operator} ${operandB} =`;
         operandA = operate(operandA, operator, operandB);
-        mainScreen.textContent = operandA;
+        mainScreen.textContent = operandA === Infinity? 'Cannot divide by zero': operandA;
         opdB = operandB;
         opT = operator;
-        operandB = 0;
+        operandB = '';
         operator = '';
     }
     opdA = operandA;
-    operandA = 0;
+    operandA = '';
 }
 
 window.addEventListener('keydown', event => {
@@ -152,7 +150,7 @@ decimalButton.addEventListener('click', event => {
 
 clearBtn.addEventListener('click', () => {
     mainScreen.textContent = 0;
-    operandA = operandB = opdA = opdB = 0;
+    operandA = operandB = opdA = opdB = '';
     operator = opT = subScreen.textContent = '';
     opADecimal = opBDecimal = false;
 })
