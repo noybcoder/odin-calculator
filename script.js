@@ -63,11 +63,8 @@ function setOperatorButton(object) {
         operandB ||= opdB;
         operandA = operate(operandA, operator, operandB);
         mainScreen.textContent = operandA;
-        opdB = operandA || operandB;
         operandB = 0;
-    } else {
-        opdB = opdA || opdB;
-    }
+    } 
     operandA ||= opdA;
     operator = getOperator(object);
     subScreen.textContent = `${operandA} ${operator}`;
