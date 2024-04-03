@@ -57,28 +57,28 @@ function getOperator(object) {
 }
 
 function setOperatorButton(object) {
-    if (operandB !== '') {
-        operandB ||= opdB;
-        operandA = operate(operandA, operator, operandB);
-        mainScreen.textContent = operandA === Infinity? 'Cannot divide by zero': operandA;
-        operandB = '';
-    } 
-    operandA ||= opdA;
     operator = getOperator(object);
-    subScreen.textContent = `${operandA} ${operator}`;
-    opdB = operandA || operendB;
+    
 }
 
 function setEqualButton() {
     operandA ||= opdA;
     if (!operator && !opT) {
-        subScreen.textContent = `${operandA} =`;
+        subScreen.textContent = operandA === ''? '0 =': `${operandA} =`;
     } else {
         operandB ||= opdB;
         operator ||= opT;
-        subScreen.textContent = `${operandA} ${operator} ${operandB} =`;
-        operandA = operate(operandA, operator, operandB);
-        mainScreen.textContent = operandA === Infinity? 'Cannot divide by zero': operandA;
+        const outcome = operate(operandA, operator, operandB);
+        if (isFinite(outcome)) {
+            subScreen.textContent = `${operandA} ${operator} ${operandB} =`;
+            operandA = outcome;
+            mainScreen.textContent = operandA;
+        } else {
+            subScreen.textContent = `${operandA} ${operator}`
+            mainScreen.textContent = 'Cannot divide by zero';
+            clearAll();
+            // Add logic to only show the number and equal buttons
+        }
         opdB = operandB;
         opT = operator;
         operandB = '';
@@ -86,6 +86,18 @@ function setEqualButton() {
     }
     opdA = operandA;
     operandA = '';
+}
+
+function clearAll() {
+    operandA = operandB = opdA = opdB = '';
+    operator = opT = '';
+    opADecimal = opBDecimal = false;
+}
+
+function deleteAll() {
+    mainScreen.textContent = 0;
+    subScreen.textContent = ''
+    clearAll();
 }
 
 window.addEventListener('keydown', event => {
@@ -148,12 +160,7 @@ decimalButton.addEventListener('click', event => {
     }
 })
 
-clearBtn.addEventListener('click', () => {
-    mainScreen.textContent = 0;
-    operandA = operandB = opdA = opdB = '';
-    operator = opT = subScreen.textContent = '';
-    opADecimal = opBDecimal = false;
-})
+clearBtn.addEventListener('click', deleteAll);
 
 deleteBtn.addEventListener('click', () => {
     if (!operator) {
