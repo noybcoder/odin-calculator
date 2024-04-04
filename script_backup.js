@@ -14,7 +14,6 @@ const deleteBtn = document.getElementById('backspace');
 
 let operandA = '', operandB = '', opdA = '', opdB = '';
 let operator = '', opT = '';
-let opADecimal = false, opBDecimal = false;
 
 function operate(opA, op, opB) {
     let result = 0;
@@ -43,10 +42,12 @@ function operate(opA, op, opB) {
 function setOperandButton(object) {
     if (!operator) {
         operandA += object;
+        operandA = /^\./g.test(operandA)? '0' + operandA: operandA; 
         mainScreen.textContent = operandA;
     }
     else {
         operandB += object;
+        operandB = /^\./g.test(operandB)? '0' + operandB: operandB; 
         mainScreen.textContent = operandB; 
     }
 }
@@ -62,18 +63,22 @@ function setOperatorButton(object) {
         const outcome = operate(operandA, operator, operandB);
         if (isFinite(outcome)) {
             operandA = outcome;
-            subScreen.textContent = `${operandA} ${operator}`;
-            mainScreen.textContent = operandA;            
+            mainScreen.textContent = operandA;   
+            operandB = '';
         } else {
-            subScreen.textContent = `${operandA} ${operator} ${operandB}`;
             mainScreen.textContent = 'Cannot divide by zero';
-            // Add logic to only show the number and equal buttons
+            opT = operator;
         }
-        operandB = '';
     } 
     operandA ||= opdA;
     operator = getOperator(object);
-    subScreen.textContent = `${operandA} ${operator}`;
+    if (isNaN(parseFloat(mainScreen.textContent))) {
+        subScreen.textContent = `${operandA} ${opT} ${operandB} ${operator}`;
+        clearAll();
+        // Add logic to only show the number and equal buttons
+    } else {
+        subScreen.textContent = `${operandA} ${operator}`;
+    }
     opdB = operandA || operandB;
 }
 
@@ -107,13 +112,24 @@ function setEqualButton() {
 function clearAll() {
     operandA = operandB = opdA = opdB = '';
     operator = opT = '';
-    opADecimal = opBDecimal = false;
 }
 
 function deleteAll() {
     mainScreen.textContent = 0;
     subScreen.textContent = ''
     clearAll();
+}
+
+function setDecimalButton(object) {
+    if (!operator) {
+        if (!operandA.includes('.')) {
+            operandA += object;
+        } 
+    } else {
+        if (!operandB.includes('.')) {
+            operandB += object;
+        } 
+    }
 }
 
 window.addEventListener('keydown', event => {
@@ -123,6 +139,8 @@ window.addEventListener('keydown', event => {
         setOperatorButton(event.key);
     } else if(/Enter|=/g.test(event.key)) {
         setEqualButton();
+    } else if(/\./g.test(event.key)) {
+        setDecimalButton(event.key);
     }
 });
 
@@ -161,19 +179,7 @@ negateButton.addEventListener('click', () => {
 })
 
 decimalButton.addEventListener('click', event => {
-    if (!operator) {
-        if (!opADecimal) {
-            operandA += event.target.textContent;
-            mainScreen.textContent = operandA;
-            opADecimal = true;
-        }
-    } else {
-        if (!opBDecimal) {
-            operandB += event.target.textContent;
-            mainScreen.textContent = operandB;
-            opBDecimal = true;
-        }
-    }
+    setDecimalButton(event.target.textContent);
 })
 
 clearBtn.addEventListener('click', deleteAll);
