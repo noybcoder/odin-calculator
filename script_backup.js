@@ -109,6 +109,16 @@ function setEqualButton() {
     operandA = '';
 }
 
+function setPercentButton() {
+    if (!operator) {
+        operandA = (operandA || opdA)/100;
+        mainScreen.textContent = operandA;
+    } else {
+        operandB = (operandB || opdB)/100;
+        mainScreen.textContent = operandB;
+    }
+}
+
 function setNegateButton() {
     if (!operator) {
         operandA = -(operandA || opdA) ;
@@ -175,6 +185,8 @@ window.addEventListener('keydown', event => {
         setDecimalButton(event.key);
     } else if(/Backspace/g.test(event.key)) {
         setBackspaceButton();
+    } else if(/%/g.test(event.key)) {
+        setPercentButton();
     }
 });
 
@@ -192,15 +204,7 @@ window.addEventListener('keydown', event => {
 
 equalButton.addEventListener('click', setEqualButton);
 
-percentButton.addEventListener('click', () => {
-    if (!operator) {
-        operandA /= 100;   
-        mainScreen.textContent = operandA;
-    } else {
-        operandB /= 100; 
-        mainScreen.textContent = operandB;
-    }
-})
+percentButton.addEventListener('click', setPercentButton);
 
 negateButton.addEventListener('click', setNegateButton);
 
