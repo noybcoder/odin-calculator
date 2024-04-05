@@ -42,12 +42,12 @@ function operate(opA, op, opB) {
 function setOperandButton(object) {
     if (!operator) {
         operandA += object;
-        operandA = /^\./g.test(operandA)? '0' + operandA: operandA; 
+        operandA = operandA === ''? '': parseFloat(operandA);
         mainScreen.textContent = operandA;
     }
     else {
         operandB += object;
-        operandB = /^\./g.test(operandB)? '0' + operandB: operandB; 
+        operandB = operandB === ''? '': parseFloat(operandB);  
         mainScreen.textContent = operandB; 
     }
 }
@@ -60,10 +60,10 @@ function getOperator(object) {
 function setOperatorButton(object) {
     if (operandB !== '') {
         operandB ||= opdB;
-        const outcome = operate(operandA, operator, operandB);
+        const outcome = operate(operandA || 0, operator, operandB || 0);
         if (isFinite(outcome)) {
             operandA = outcome;
-            mainScreen.textContent = operandA;   
+            mainScreen.textContent = operandA;
             operandB = '';
         } else {
             mainScreen.textContent = 'Cannot divide by zero';
@@ -73,11 +73,11 @@ function setOperatorButton(object) {
     operandA ||= opdA;
     operator = getOperator(object);
     if (isNaN(parseFloat(mainScreen.textContent))) {
-        subScreen.textContent = `${operandA} ${opT} ${operandB} ${operator}`;
+        subScreen.textContent = `${operandA || 0} ${opT} ${operandB || 0} ${operator}`;
         clearAll();
         // Add logic to only show the number and equal buttons
     } else {
-        subScreen.textContent = `${operandA} ${operator}`;
+        subScreen.textContent = `${operandA || 0} ${operator}`;
     }
     opdB = operandA || operandB;
 }
@@ -85,17 +85,17 @@ function setOperatorButton(object) {
 function setEqualButton() {
     operandA ||= opdA;
     if (!operator && !opT) {
-        subScreen.textContent = operandA === ''? '0 =': `${operandA} =`;
+        subScreen.textContent = `${operandA || 0} =`;
     } else {
         operandB ||= opdB;
         operator ||= opT;
-        const outcome = operate(operandA, operator, operandB);
+        const outcome = operate(operandA || 0, operator, operandB || 0);
         if (isFinite(outcome)) {
-            subScreen.textContent = `${operandA} ${operator} ${operandB} =`;
+            subScreen.textContent = `${operandA || 0} ${operator} ${operandB || 0} =`;
             operandA = outcome;
             mainScreen.textContent = operandA;
         } else {
-            subScreen.textContent = `${operandA} ${operator}`
+            subScreen.textContent = `${operandA || 0} ${operator}`
             mainScreen.textContent = 'Cannot divide by zero';
             clearAll();
             // Add logic to only show the number and equal buttons
@@ -109,26 +109,58 @@ function setEqualButton() {
     operandA = '';
 }
 
+function setNegateButton() {
+    if (!operator) {
+        operandA = -(operandA || opdA) ;
+        mainScreen.textContent = operandA;
+    } else {
+        operandB = -(operandB || opdB);
+        mainScreen.textContent = operandB;
+    }
+}
+
+function setDecimalButton(object) {
+    if (!operator) {
+        if (!operandA.toString().includes('.')) {
+            operandA += object;
+            operandA = /^\./g.test(operandA)? '0' + operandA: operandA;
+            mainScreen.textContent = operandA;
+        } 
+    } else {
+        if (!operandB.toString().includes('.')) {
+            operandB += object;
+            operandB = /^\./g.test(operandB)? '0' + operandB: operandB;
+            mainScreen.textContent = operandB;
+        } 
+    }
+}
+
 function clearAll() {
     operandA = operandB = opdA = opdB = '';
     operator = opT = '';
 }
 
-function deleteAll() {
+function setClearAllButton() {
     mainScreen.textContent = 0;
     subScreen.textContent = ''
     clearAll();
 }
 
-function setDecimalButton(object) {
+function setBackspaceButton() {
     if (!operator) {
-        if (!operandA.includes('.')) {
-            operandA += object;
-        } 
+        if (operandA !== '') {
+            operandA = operandA.toString().slice(0, -1) || 0;
+            operandA = /\.$/g.test(operandA)? operandA.replace('.', ''): operandA;
+            opdA = operandA;
+            mainScreen.textContent = operandA;
+        }
     } else {
-        if (!operandB.includes('.')) {
-            operandB += object;
-        } 
+        if (operandB != '') {
+            operandB = operandB.toString().slice(0, -1) || 0;
+            operandB = /\.$/g.test(operandB)? operandB.replace('.', ''): operandB;
+            opdB = operandB;
+            mainScreen.textContent = operandB;
+        }
     }
 }
 
@@ -137,10 +169,12 @@ window.addEventListener('keydown', event => {
         setOperandButton(event.key);
     } else if(/[\+\*//-]/g.test(event.key)) {
         setOperatorButton(event.key);
-    } else if(/Enter|=/g.test(event.key)) {
+    } else if(/Enter/g.test(event.key)) {
         setEqualButton();
     } else if(/\./g.test(event.key)) {
         setDecimalButton(event.key);
+    } else if(/Backspace/g.test(event.key)) {
+        setBackspaceButton();
     }
 });
 
@@ -168,32 +202,12 @@ percentButton.addEventListener('click', () => {
     }
 })
 
-negateButton.addEventListener('click', () => {
-    if (!operator) {
-        operandA = -operandA;
-        mainScreen.textContent = operandA;
-    } else {
-        operandB = -operandB;
-        mainScreen.textContent = operandB;
-    }
-})
+negateButton.addEventListener('click', setNegateButton);
 
 decimalButton.addEventListener('click', event => {
     setDecimalButton(event.target.textContent);
 })
 
-clearBtn.addEventListener('click', deleteAll);
+clearBtn.addEventListener('click', setClearAllButton);
 
-deleteBtn.addEventListener('click', () => {
-    if (!operator) {
-        operandA = operandA.toString().slice(0, -1) || 0;
-        opdA = operandA;
-        mainScreen.textContent = operandA;
-    } else {
-        if (operandB) {
-            operandB = operandB.toString().slice(0, -1) || 0;
-            opdB = operandB;
-            mainScreen.textContent = operandB;
-        }
-    }
-})
+deleteBtn.addEventListener('click', setBackspaceButton);
