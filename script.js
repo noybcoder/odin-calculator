@@ -36,18 +36,22 @@ function operate(opA, op, opB) {
             result = a / b;
             break
     }
-    return result;
+    integerLength = result.toString().split('.')[0].length;
+    result = result.toString().includes('.')? result.toFixed(11 - integerLength): result;
+    return result.toString().length > 12? parseFloat(result).toExponential(2): result;
 }
 
 function setOperandButton(object) {
     if (!operator) {
         operandA += object;
-        operandA = operandA === ''? '': parseFloat(operandA);
+        operandA = parseFloat(operandA.substring(0, 12));
+        opdA = operandA;
         mainScreen.textContent = operandA;
     }
     else {
         operandB += object;
-        operandB = operandB === ''? '': parseFloat(operandB);  
+        operandB = parseFloat(operandB.substring(0, 12));
+        opdB = operandB;
         mainScreen.textContent = operandB; 
     }
 }
@@ -61,6 +65,7 @@ function setOperatorButton(object) {
     if (operandB !== '') {
         operandB ||= opdB;
         const outcome = operate(operandA || 0, operator, operandB || 0);
+        console.log('from operator', operandA, operator, operandB);
         if (isFinite(outcome)) {
             operandA = outcome;
             mainScreen.textContent = operandA;

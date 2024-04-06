@@ -24,6 +24,7 @@ main {
     flex-direction: column;
     align-items: flex-end;
     overflow: hidden;
+    white-space: nowrap;
     width: 320px;
     height: auto;
     padding: 10px;
@@ -33,13 +34,14 @@ main {
 
 
 #main-screen {
-    font-size: 36px;
+    font-size: 30px;
     font-size-adjust: none;
 
 }
 
 #sub-screen {
-    font-size: 20px;
+    font-size: 14px;
+
 }
 
 .button-wrapper {

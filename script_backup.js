@@ -42,12 +42,14 @@ function operate(opA, op, opB) {
 function setOperandButton(object) {
     if (!operator) {
         operandA += object;
-        operandA = operandA === ''? '': parseFloat(operandA);
+        operandA = parseFloat(operandA);
+        opdA = operandA;
         mainScreen.textContent = operandA;
     }
     else {
         operandB += object;
-        operandB = operandB === ''? '': parseFloat(operandB);  
+        operandB = parseFloat(operandB);
+        opdB = operandB;
         mainScreen.textContent = operandB; 
     }
 }
@@ -61,6 +63,7 @@ function setOperatorButton(object) {
     if (operandB !== '') {
         operandB ||= opdB;
         const outcome = operate(operandA || 0, operator, operandB || 0);
+        console.log('from operator', operandA, operator, operandB);
         if (isFinite(outcome)) {
             operandA = outcome;
             mainScreen.textContent = operandA;
