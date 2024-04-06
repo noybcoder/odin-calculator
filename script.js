@@ -34,7 +34,7 @@ function operate(opA, op, opB) {
         case '➗':
         case '/':
             result = a / b;
-            break
+            break;
     }
     integerLength = result.toString().split('.')[0].length;
     result = result.toString().includes('.')? result.toFixed(11 - integerLength): result;
@@ -46,13 +46,13 @@ function setOperandButton(object) {
         operandA += object;
         operandA = parseFloat(operandA.substring(0, 12));
         opdA = operandA;
-        mainScreen.textContent = operandA;
+        mainScreen.textContent = parseFloat(operandA).toLocaleString();
     }
     else {
         operandB += object;
         operandB = parseFloat(operandB.substring(0, 12));
         opdB = operandB;
-        mainScreen.textContent = operandB; 
+        mainScreen.textContent = parseFloat(operandB).toLocaleString(); 
     }
 }
 
@@ -65,14 +65,13 @@ function setOperatorButton(object) {
     if (operandB !== '') {
         operandB ||= opdB;
         const outcome = operate(operandA || 0, operator, operandB || 0);
-        console.log('from operator', operandA, operator, operandB);
-        if (isFinite(outcome)) {
+        if (operator === '➗' && operandB === 0) {
+            mainScreen.textContent = 'Cannot divide by zero';
+            opT = operator;
+        } else {
             operandA = outcome;
             mainScreen.textContent = operandA;
             operandB = '';
-        } else {
-            mainScreen.textContent = 'Cannot divide by zero';
-            opT = operator;
         }
     } 
     operandA ||= opdA;
@@ -95,15 +94,15 @@ function setEqualButton() {
         operandB ||= opdB;
         operator ||= opT;
         const outcome = operate(operandA || 0, operator, operandB || 0);
-        if (isFinite(outcome)) {
-            subScreen.textContent = `${operandA || 0} ${operator} ${operandB || 0} =`;
-            operandA = outcome;
-            mainScreen.textContent = operandA;
-        } else {
+        if (operator === '➗' && operandB === 0) {
             subScreen.textContent = `${operandA || 0} ${operator}`
             mainScreen.textContent = 'Cannot divide by zero';
             clearAll();
             // Add logic to only show the number and equal buttons
+        } else {
+            subScreen.textContent = `${operandA || 0} ${operator} ${operandB || 0} =`;
+            operandA = outcome;
+            mainScreen.textContent = operandA;
         }
         opdB = operandB;
         opT = operator;
@@ -127,10 +126,10 @@ function setPercentButton() {
 function setNegateButton() {
     if (!operator) {
         operandA = -(operandA || opdA) ;
-        mainScreen.textContent = operandA;
+        mainScreen.textContent = operandA.toLocaleString();
     } else {
         operandB = -(operandB || opdB);
-        mainScreen.textContent = operandB;
+        mainScreen.textContent = operandB.toLocaleString();
     }
 }
 
