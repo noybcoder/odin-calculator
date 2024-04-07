@@ -37,20 +37,20 @@ function operate(opA, op, opB) {
             break;
     }
     integerLength = result.toString().split('.')[0].length;
-    result = result.toString().includes('.')? result.toFixed(11 - integerLength): result;
-    return result.toString().length > 12? parseFloat(result).toExponential(2): result;
+    result = result.toString().includes('.')? result.toFixed(15 - integerLength): result;
+    return result.toString().length > 16? parseFloat(result).toExponential(2): result;
 }
 
 function setOperandButton(object) {
     if (!operator) {
         operandA += object;
-        operandA = parseFloat(operandA.substring(0, 12));
+        operandA = parseFloat(operandA.substring(0, 16));
         opdA = operandA;
         mainScreen.textContent = parseFloat(operandA).toLocaleString();
     }
     else {
         operandB += object;
-        operandB = parseFloat(operandB.substring(0, 12));
+        operandB = parseFloat(operandB.substring(0, 16));
         opdB = operandB;
         mainScreen.textContent = parseFloat(operandB).toLocaleString(); 
     }
@@ -179,11 +179,12 @@ function setBackspaceButton() {
 }
 
 window.addEventListener('keydown', event => {
+    event.preventDefault();
     if (/^\d$/g.test(event.key)) {
         setOperandButton(event.key);
     } else if(/[\+\*//-]/g.test(event.key)) {
         setOperatorButton(event.key);
-    } else if(/Enter/g.test(event.key)) {
+    } else if(/Enter|=/g.test(event.key)) {
         setEqualButton();
     } else if(/\./g.test(event.key)) {
         setDecimalButton(event.key);

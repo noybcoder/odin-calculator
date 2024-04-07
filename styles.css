@@ -32,15 +32,22 @@ main {
 
 }
 
-
 #main-screen {
-    font-size: 30px;
+    /*
+        change to 22px when the length is greater than 14 characdters, 
+        otherwise stays at 32px
+    */
+    font-size: 32px;
     font-size-adjust: none;
-
 }
 
 #sub-screen {
-    font-size: 14px;
+    /*
+        change to 11px when the length is greater than 20 characdters,
+        change to 26px when the "Cannot divide by zero" message shows,
+        otherwise stays at 22px
+    */
+    font-size: 22px;
 
 }
 
