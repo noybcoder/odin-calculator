@@ -44,13 +44,14 @@ function operate(opA, op, opB) {
 function setOperandButton(object) {
     if (!operator) {
         operandA += object;
-        operandA = parseFloat(operandA.substring(0, 16));
+        operandA = operandA.substring(0, 16);
+        // /^0*(\d+\.?\d*[1-9])0*$/g.exec('12000');
         opdA = operandA;
         mainScreen.textContent = operandA.toLocaleString();
     }
     else {
         operandB += object;
-        // operandB = parseFloat(operandB.substring(0, 16));
+        operandB = operandB.substring(0, 16);
         opdB = operandB;
         mainScreen.textContent = operandB.toLocaleString(); 
     }
