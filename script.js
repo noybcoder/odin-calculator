@@ -46,13 +46,13 @@ function setOperandButton(object) {
         operandA += object;
         operandA = parseFloat(operandA.substring(0, 16));
         opdA = operandA;
-        mainScreen.textContent = parseFloat(operandA).toLocaleString();
+        mainScreen.textContent = operandA.toLocaleString();
     }
     else {
         operandB += object;
-        operandB = parseFloat(operandB.substring(0, 16));
+        // operandB = parseFloat(operandB.substring(0, 16));
         opdB = operandB;
-        mainScreen.textContent = parseFloat(operandB).toLocaleString(); 
+        mainScreen.textContent = operandB.toLocaleString(); 
     }
 }
 
@@ -179,16 +179,20 @@ function setBackspaceButton() {
 }
 
 window.addEventListener('keydown', event => {
-    event.preventDefault();
     if (/^\d$/g.test(event.key)) {
         setOperandButton(event.key);
     } else if(/[\+\*//-]/g.test(event.key)) {
         setOperatorButton(event.key);
     } else if(/Enter|=/g.test(event.key)) {
+        event.preventDefault();
         setEqualButton();
     } else if(/\./g.test(event.key)) {
         setDecimalButton(event.key);
+    } else if(/Escape/g.test(event.key)) {
+        event.preventDefault();
+        setClearAllButton();
     } else if(/Backspace/g.test(event.key)) {
+        event.preventDefault();
         setBackspaceButton();
     } else if(/%/g.test(event.key)) {
         setPercentButton();
