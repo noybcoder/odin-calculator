@@ -44,14 +44,27 @@ function operate(opA, op, opB) {
 function setOperandButton(object) {
     if (!operator) {
         operandA += object;
-        operandA = operandA.substring(0, 16);
-        // /^0*(\d+\.?\d*[1-9])0*$/g.exec('12000');
+        operandA = /^0*(\d+\.?\d*)0*$/g.exec(operandA)[1];
+        if (/^0\./g.test(operandA)) {
+            operandA = operandA.substring(0, 18);
+        } else if(/^[1-9]+\./g.test(operandA)) {
+            operandA = operandA.substring(0, 17);
+        } else {
+            operandA = operandA.substring(0, 16);
+        }
         opdA = operandA;
         mainScreen.textContent = operandA.toLocaleString();
     }
     else {
         operandB += object;
-        operandB = operandB.substring(0, 16);
+        operandB = /^0*(\d+\.?\d*)0*$/g.exec(operandB)[1].substring(0, 18);
+        if (/^0\./g.test(operandB)) {
+            operandB = operandB.substring(0, 18);
+        } else if(/^[1-9]+\./g.test(operandB)) {
+            operandB = operandB.substring(0, 17);
+        } else {
+            operandB = operandB.substring(0, 16);
+        }        
         opdB = operandB;
         mainScreen.textContent = operandB.toLocaleString(); 
     }
@@ -66,7 +79,7 @@ function setOperatorButton(object) {
     if (operandB !== '') {
         operandB ||= opdB;
         const outcome = operate(operandA || 0, operator, operandB || 0);
-        if (operator === '➗' && operandB === 0) {
+        if (operator === '➗' && parseFloat(operandB) === 0) {
             mainScreen.textContent = 'Cannot divide by zero';
             opT = operator;
         } else {
@@ -95,7 +108,7 @@ function setEqualButton() {
         operandB ||= opdB;
         operator ||= opT;
         const outcome = operate(operandA || 0, operator, operandB || 0);
-        if (operator === '➗' && operandB === 0) {
+        if (operator === '➗' && parseFloat(operandB) === 0) {
             subScreen.textContent = `${operandA || 0} ${operator}`
             mainScreen.textContent = 'Cannot divide by zero';
             clearAll();
