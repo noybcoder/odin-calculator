@@ -15,6 +15,31 @@ const deleteBtn = document.getElementById('backspace');
 let operandA = '', operandB = '', opdA = '', opdB = '';
 let operator = '', opT = '';
 
+function resizeScreen() {
+    const screenFontSize = window.getComputedStyle(subScreen).fontSize;
+    // const decrement = element === mainScreen? 3: 1;
+    subScreen.style.fontSize = `${parseFloat(screenFontSize) - 1}px`;
+
+    if (subScreen.clientWidth >= subScreen.parentElement.clientWidth) {
+        resizeScreen();
+    }
+}
+
+function setScreenFontSize() { 
+    // element.style.fontSize = element === mainScreen? '32px': '22px';
+    subScreen.style.fontSize = '22px';
+    resizeScreen();
+}
+
+// ['click', 'keydown'].forEach(action => {
+//     [mainScreen, subScreen].forEach(element => {
+//         window.addEventListener(action, () => setScreenFontSize(element));
+//     })
+// });
+
+subScreen.addEventListener('input', setScreenFontSize);
+
+
 function operate(opA, op, opB) {
     let result = 0;
     a = parseFloat(opA);
