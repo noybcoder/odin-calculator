@@ -60,10 +60,33 @@ img {
     gap: 5px;
 }
 
-
 button {
     width: 65px;
     height: 65px;
     font-size: 22px;
+    border: 0;
     border-radius: 50%;
+}
+
+button:hover {
+    width: 70px;
+    height: 70px;
+    font-size: 22px;
+    border: 0;
+    border-radius: 50%;
+}
+
+.digits, #negation, #period {
+    background-color: #333;
+    color: #ffffff;
+}
+
+.operators, #equal {
+    background-color: #f1a33c;
+    color: #ffffff;
+}
+
+#clear, #backspace, #percentage {
+    background-color: #a5a5a5;
+    color: #000000;
 }

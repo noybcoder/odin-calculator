@@ -48,7 +48,7 @@ function operate(opA, op, opB) {
         case '*':
             result = a * b;
             break;
-        case '➗':
+        case '÷':
         case '/':
             result = a / b;
             break;
@@ -88,7 +88,7 @@ function setOperandButton(object) {
 }
 
 function getOperator(object) {
-    let operators = {'*': 'x', '/': '➗'};
+    let operators = {'*': 'x', '/': '÷'};
     return /[\*//]/g.test(object)? operators[object]: object;
 }
 
@@ -96,7 +96,7 @@ function setOperatorButton(object) {
     if (operandB !== '') {
         operandB ||= opdB;
         const outcome = operate(operandA || 0, operator, operandB || 0);
-        if (operator === '➗' && parseFloat(operandB) === 0) {
+        if (operator === '÷' && parseFloat(operandB) === 0) {
             mainScreen.textContent = 'Cannot divide by zero';
             opT = operator;
         } else {
@@ -125,7 +125,7 @@ function setEqualButton() {
         operandB ||= opdB;
         operator ||= opT;
         const outcome = operate(operandA || 0, operator, operandB || 0);
-        if (operator === '➗' && parseFloat(operandB) === 0) {
+        if (operator === '÷' && parseFloat(operandB) === 0) {
             subScreen.textContent = `${operandA || 0} ${operator}`
             mainScreen.textContent = 'Cannot divide by zero';
             clearAll();
