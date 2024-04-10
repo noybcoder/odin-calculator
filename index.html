@@ -10,14 +10,22 @@
 </head>
 <body>
     <main>
+        <div class="top-wrapper">
+            <div id="clock">
+                <span id="hour"></span>:<span id="minute"></span>
+            </div>
+            <div id="status">
+                <img src="status.png" alt="status">
+            </div>
+        </div>
         <div class="screen-wrapper">
-            <div id="sub-screen" tabindex="0"></div>
+            <div id="sub-screen"></div>
             <div id="main-screen">0</div>
         </div>
         <div class="button-wrapper">
             <button type="button" class="digits" id="zero">0</button>
             <button type="button" name="period"id="period">.</button>
-            <button type="button" id="negation">+/-</button>
+            <button type="button" id="negation">±</button>
             <button type="button" name="equal" id="equal">=</button>
             <button type="button" class="digits" id="one">1</button>
             <button type="button" class="digits" id="two">2</button>
@@ -34,7 +42,7 @@
             <button type="button" name="clear" id="clear">AC</button>
             <button type="button" name="backspace" id="backspace">⌫</button>
             <button type="button" name="percentage" id="percentage">%</button>
-            <button type="button" class="operators" id="division">➗</button>
+            <button type="button" class="operators" id="division">÷</button>
         </div>
     </main>
 </body>

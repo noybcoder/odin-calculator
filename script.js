@@ -1,3 +1,6 @@
+const hourDisplay = document.getElementById('hour');
+const minuteDisplay = document.getElementById('minute');
+
 const mainScreen = document.getElementById('main-screen');
 const subScreen = document.getElementById('sub-screen');
 
@@ -15,30 +18,19 @@ const deleteBtn = document.getElementById('backspace');
 let operandA = '', operandB = '', opdA = '', opdB = '';
 let operator = '', opT = '';
 
-function resizeScreen() {
-    const screenFontSize = window.getComputedStyle(subScreen).fontSize;
-    // const decrement = element === mainScreen? 3: 1;
-    subScreen.style.fontSize = `${parseFloat(screenFontSize) - 1}px`;
+function resizeScreen(element) {
+    const screenFontSize = window.getComputedStyle(element).fontSize;
+    element.style.fontSize = `${parseFloat(screenFontSize) - 3}px`;
 
-    if (subScreen.clientWidth >= subScreen.parentElement.clientWidth) {
-        resizeScreen();
+    if (element.clientWidth >= element.parentElement.clientWidth) {
+        resizeScreen(element);
     }
 }
 
-function setScreenFontSize() { 
-    // element.style.fontSize = element === mainScreen? '32px': '22px';
-    subScreen.style.fontSize = '22px';
-    resizeScreen();
+function setScreenFontSize(element) { 
+    element.style.fontSize = '30px';
+    resizeScreen(element);
 }
-
-// ['click', 'keydown'].forEach(action => {
-//     [mainScreen, subScreen].forEach(element => {
-//         window.addEventListener(action, () => setScreenFontSize(element));
-//     })
-// });
-
-subScreen.addEventListener('input', setScreenFontSize);
-
 
 function operate(opA, op, opB) {
     let result = 0;
@@ -62,7 +54,7 @@ function operate(opA, op, opB) {
             break;
     }
     integerLength = result.toString().split('.')[0].length;
-    result = result.toString().includes('.')? result.toFixed(15 - integerLength): result;
+    result = result.toString().includes('.')? result.toFixed(14 - integerLength): result;
     return result.toString().length > 16? parseFloat(result).toExponential(2): result;
 }
 
@@ -217,25 +209,30 @@ function setBackspaceButton() {
     }
 }
 
-window.addEventListener('keydown', event => {
-    if (/^\d$/g.test(event.key)) {
-        setOperandButton(event.key);
-    } else if(/[\+\*//-]/g.test(event.key)) {
-        setOperatorButton(event.key);
-    } else if(/Enter|=/g.test(event.key)) {
-        event.preventDefault();
-        setEqualButton();
-    } else if(/\./g.test(event.key)) {
-        setDecimalButton(event.key);
-    } else if(/Escape/g.test(event.key)) {
-        event.preventDefault();
-        setClearAllButton();
-    } else if(/Backspace/g.test(event.key)) {
-        event.preventDefault();
-        setBackspaceButton();
-    } else if(/%/g.test(event.key)) {
-        setPercentButton();
-    }
+['keydown', 'click'].forEach(action => {
+    if (action === 'keydown') {
+        window.addEventListener(action, event => {
+            if (/^\d$/g.test(event.key)) {
+                setOperandButton(event.key);
+            } else if(/[\+\*//-]/g.test(event.key)) {
+                setOperatorButton(event.key);
+            } else if(/Enter|=/g.test(event.key)) {
+                event.preventDefault();
+                setEqualButton();
+            } else if(/\./g.test(event.key)) {
+                setDecimalButton(event.key);
+            } else if(/Escape/g.test(event.key)) {
+                event.preventDefault();
+                setClearAllButton();
+            } else if(/Backspace/g.test(event.key)) {
+                event.preventDefault();
+                setBackspaceButton();
+            } else if(/%/g.test(event.key)) {
+                setPercentButton();
+            }
+        })
+    } 
+    window.addEventListener(action, () => setScreenFontSize(mainScreen));
 });
 
 [...numberButtons].forEach(button => 

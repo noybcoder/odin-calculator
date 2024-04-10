@@ -1,74 +1,52 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+}
+
 body {
     display: flex;
     justify-content: center;
-    padding: 0;
-    margin: 0;
-    min-height: 1vh;
-    font-family: 'Orbitron', Arial, Helvetica, sans-serif;
+    font-family: "Helvetica Neue", sans-serif;
+    margin: 12px;
 }
 
 main {
+    position: relative;
+    background: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    width: 315px;
+    height: 600px;
+    padding: 15px;
+    border-radius: 35px;
+}
+
+.top-wrapper {
     display: flex;
-    flex-direction: column;
     justify-content: space-around;
-    align-items: center;
-    width: 400px;
-    height: 550px;
-    border: 2px solid purple;
-    border-radius: 10px;
-    margin-top: 5%;
+    column-gap: 150px;
+    margin-bottom: 150px;
+}
+
+img {
+    width: 55px;
 }
 
 .screen-wrapper {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    overflow: hidden;
-    white-space: nowrap;
-    width: 320px;
-    height: auto;
-    padding: 10px;
-    border: 2px solid purple;
-
+    padding: 0 10px;
 }
 
 #main-screen {
-    /*
-        change to 22px when the length is greater than 14 characdters, 
-        otherwise stays at 32px
-    */
-    font-size: 32px;
-    font-size-adjust: none;
+    font-size: 30px;
 }
 
 #sub-screen {
-    /*
-        change to 11px when the length is greater than 20 characdters,
-        change to 26px when the "Cannot divide by zero" message shows,
-        otherwise stays at 22px
-    */
-    font-size: 22px;
-
+    font-size: 13px;
 }
 
-.button-wrapper {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap-reverse;
-    gap: 15px;
-}
 
-button {
-    box-sizing: border-box;
-    width: 70px;
-    height: 70px;
-    font-size: 20px;
-    font-weight: 900;
-    border-radius: 5px;
-}
 
-#clear, #backspace {
-    color: #ffffff;
-    background-color: #d62a05;
-
-}
