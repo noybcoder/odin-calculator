@@ -9,7 +9,8 @@ body {
     display: flex;
     justify-content: center;
     font-family: "Helvetica Neue", sans-serif;
-    margin: 12px;
+    margin: 15px;
+    background-color: grey;
 }
 
 main {
@@ -19,34 +20,50 @@ main {
     width: 315px;
     height: 600px;
     padding: 15px;
+    border: 3px silver solid;
     border-radius: 35px;
 }
 
 .top-wrapper {
     display: flex;
     justify-content: space-around;
-    column-gap: 150px;
-    margin-bottom: 150px;
+    column-gap: 170px;
+    margin-bottom: 120px;
 }
 
 img {
-    width: 55px;
+    width: 65px;
 }
 
 .screen-wrapper {
+    width: auto;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     padding: 0 10px;
+    margin-bottom: 10px;
 }
 
 #main-screen {
-    font-size: 30px;
+    font-size: 50px;
 }
 
 #sub-screen {
-    font-size: 13px;
+    font-size: 12px;
+}
+
+.button-wrapper {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
 }
 
 
-
+button {
+    width: 65px;
+    height: 65px;
+    font-size: 22px;
+    border-radius: 50%;
+}

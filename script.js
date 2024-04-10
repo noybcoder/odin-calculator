@@ -28,7 +28,7 @@ function resizeScreen(element) {
 }
 
 function setScreenFontSize(element) { 
-    element.style.fontSize = '30px';
+    element.style.fontSize = '50px';
     resizeScreen(element);
 }
 
@@ -70,7 +70,7 @@ function setOperandButton(object) {
             operandA = operandA.substring(0, 16);
         }
         opdA = operandA;
-        mainScreen.textContent = operandA.toLocaleString();
+        mainScreen.textContent = operandA;
     }
     else {
         operandB += object;
