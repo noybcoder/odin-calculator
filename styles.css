@@ -90,3 +90,11 @@ button:hover {
     background-color: #a5a5a5;
     color: #000000;
 }
+
+#backspace {
+    font-size: 15px;
+}
+
+#division {
+    font-size: 30px;
+}
