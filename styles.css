@@ -17,8 +17,8 @@ main {
     position: relative;
     background: rgb(0, 0, 0);
     color: rgb(255, 255, 255);
-    width: 315px;
-    height: 600px;
+    width: 330px;
+    height: 625px;
     padding: 15px;
     border: 3px silver solid;
     border-radius: 35px;
@@ -28,7 +28,7 @@ main {
     display: flex;
     justify-content: space-around;
     column-gap: 170px;
-    margin-bottom: 120px;
+    margin-bottom: 115px;
 }
 
 img {
@@ -45,7 +45,7 @@ img {
 }
 
 #main-screen {
-    font-size: 50px;
+    font-size: 54px;
 }
 
 #sub-screen {
@@ -57,7 +57,7 @@ img {
     flex-wrap: wrap-reverse;
     justify-content: center;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
 }
 
 button {
@@ -69,11 +69,19 @@ button {
 }
 
 button:hover {
-    width: 70px;
-    height: 70px;
+    width: 75px;
+    height: 75px;
     font-size: 22px;
     border: 0;
     border-radius: 50%;
+}
+
+button:active {
+    background-color: orange;
+}
+
+button:focus {
+    outline-width: 0;
 }
 
 .digits, #negation, #period {
@@ -97,4 +105,10 @@ button:hover {
 
 #division {
     font-size: 30px;
+}
+
+.bottom {
+    width: auto;
+    margin: 25px 80px;
+    border: 2px silver solid;
 }

@@ -28,7 +28,7 @@ function resizeScreen(element) {
 }
 
 function setScreenFontSize(element) { 
-    element.style.fontSize = '50px';
+    element.style.fontSize = '54px';
     resizeScreen(element);
 }
 
