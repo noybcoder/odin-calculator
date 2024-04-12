@@ -5,7 +5,7 @@ const mainScreen = document.getElementById('main-screen');
 const subScreen = document.getElementById('sub-screen');
 
 const buttons = document.querySelectorAll('button');
-const numberButtons = document.getElementsByClassName('digits');
+const numberButtons = document.getElementsByClassName('operands');
 const operatorButtons = document.getElementsByClassName('operators');
 const equalButton = document.getElementById('equal');
 const decialButton = document.getElementById('period');
@@ -59,6 +59,17 @@ function operate(opA, op, opB) {
     return result.toString().length > 16? parseFloat(result).toExponential(2): result;
 }
 
+function setDecimalSeparator(operand) {
+    operand = operand.split('').reverse().join('');
+    const arr = [];
+
+    for (let i = 0; i < operand.length; i += 3) {
+        arr.push(operand.substring(i, i + 3));
+    }
+
+    return arr.join(',').split('').reverse().join('');
+}
+
 function setOperandButton(object) {
     if (!operator) {
         operandA += object;
@@ -71,7 +82,7 @@ function setOperandButton(object) {
             operandA = operandA.substring(0, 16);
         }
         opdA = operandA;
-        mainScreen.textContent = operandA;
+        mainScreen.textContent = setDecimalSeparator(operandA);
     }
     else {
         operandB += object;
@@ -211,12 +222,12 @@ function setBackspaceButton() {
 ['keypress', 'click'].forEach(action => {
     if (action === 'keypress') {
         window.addEventListener(action, event => {
-            for (button of buttons) {
-                if (event.key == button.textContent) {
-                    button.classList.add('hidden');
-                    setTimeout(() => button.classList.remove('hidden'), 1);
-                }
-            }
+            // for (button of buttons) {
+            //     if (event.key == button.textContent) {
+            //         button.classList.add('hidden');
+            //         setTimeout(() => button.classList.remove('hidden'), 1);
+            //     }
+            // }
             if (/^\d$/g.test(event.key)) {
                 setOperandButton(event.key);
             } else if(/[\+\*//-]/g.test(event.key)) {
