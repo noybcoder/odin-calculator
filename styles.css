@@ -80,22 +80,22 @@ button:focus {
     outline-width: 0;
 }
 
-.operands {
+.operands, #negation, #period {
     background-color: #333;
     color: #ffffff;
 }
 
-.operators {
+.operators, #equal {
     background-color: #ff9f0a;
     color: #ffffff;
 }
 
-.operators:active, .operators.hidden {
+.operators:active, .operators.hidden, #equal:active, #equal.hidden {
     background-color: #ffbd56;
     color: #ffffff;
 }
 
-.eliminators {
+#clear, #backspace, #percentage {
     background-color: #a5a5a5;
     color: #000000;
 }

@@ -60,14 +60,21 @@ function operate(opA, op, opB) {
 }
 
 function setDecimalSeparator(operand) {
-    operand = operand.split('').reverse().join('');
+    numbers = /(-?)(\d+,?\d*)(\.?\d*)/g.exec(operand);
+    integerPortion = numbers[2].split('').reverse().join('');
     const arr = [];
 
-    for (let i = 0; i < operand.length; i += 3) {
-        arr.push(operand.substring(i, i + 3));
+    for (let i = 0; i < integerPortion.length; i += 3) {
+        arr.push(integerPortion.substring(i, i + 3));
     }
 
-    return arr.join(',').split('').reverse().join('');
+    let result = arr.join(',').split('').reverse().join('');
+
+    if (numbers[3]) {
+        result += numbers[3];
+    }
+
+    return result
 }
 
 function setOperandButton(object) {
@@ -86,7 +93,7 @@ function setOperandButton(object) {
     }
     else {
         operandB += object;
-        operandB = /^0*(\d+\.?\d*)0*$/g.exec(operandB)[1].substring(0, 18);
+        operandB = /^0*(\d+\.?\d*)0*$/g.exec(operandB)[1];
         if (/^0\./g.test(operandB)) {
             operandB = operandB.substring(0, 18);
         } else if(/^[1-9]+\./g.test(operandB)) {
@@ -95,7 +102,7 @@ function setOperandButton(object) {
             operandB = operandB.substring(0, 16);
         }        
         opdB = operandB;
-        mainScreen.textContent = operandB.toLocaleString(); 
+        mainScreen.textContent = setDecimalSeparator(operandB); 
     }
 }
 
@@ -167,10 +174,10 @@ function setPercentButton() {
 function setNegateButton() {
     if (!operator) {
         operandA = -(operandA || opdA) ;
-        mainScreen.textContent = operandA.toLocaleString();
+        mainScreen.textContent = operandA;
     } else {
         operandB = -(operandB || opdB);
-        mainScreen.textContent = operandB.toLocaleString();
+        mainScreen.textContent = operandB;
     }
 }
 
@@ -219,8 +226,8 @@ function setBackspaceButton() {
     }
 }
 
-['keypress', 'click'].forEach(action => {
-    if (action === 'keypress') {
+['keydown', 'click'].forEach(action => {
+    if (action === 'keydown') {
         window.addEventListener(action, event => {
             // for (button of buttons) {
             //     if (event.key == button.textContent) {

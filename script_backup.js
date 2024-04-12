@@ -1,7 +1,11 @@
+const hourDisplay = document.getElementById('hour');
+const minuteDisplay = document.getElementById('minute');
+
 const mainScreen = document.getElementById('main-screen');
 const subScreen = document.getElementById('sub-screen');
 
-const numberButtons = document.getElementsByClassName('digits');
+const buttons = document.querySelectorAll('button');
+const numberButtons = document.getElementsByClassName('operands');
 const operatorButtons = document.getElementsByClassName('operators');
 const equalButton = document.getElementById('equal');
 const decialButton = document.getElementById('period');
@@ -17,7 +21,7 @@ let operator = '', opT = '';
 
 function resizeScreen(element) {
     const screenFontSize = window.getComputedStyle(element).fontSize;
-    element.style.fontSize = `${parseFloat(screenFontSize) - 2}px`;
+    element.style.fontSize = `${parseFloat(screenFontSize) - 5}px`;
 
     if (element.clientWidth >= element.parentElement.clientWidth) {
         resizeScreen(element);
@@ -25,15 +29,9 @@ function resizeScreen(element) {
 }
 
 function setScreenFontSize(element) { 
-    element.style.fontSize = element === mainScreen? '32px': '22px';
+    element.style.fontSize = '54px';
     resizeScreen(element);
 }
-
-['click', 'keydown'].forEach(action => {
-    [mainScreen, subScreen].forEach(element => {
-        window.addEventListener(action, () => setScreenFontSize(element));
-    })
-});
 
 function operate(opA, op, opB) {
     let result = 0;
@@ -51,14 +49,32 @@ function operate(opA, op, opB) {
         case '*':
             result = a * b;
             break;
-        case '➗':
+        case '÷':
         case '/':
             result = a / b;
             break;
     }
     integerLength = result.toString().split('.')[0].length;
-    result = result.toString().includes('.')? result.toFixed(15 - integerLength): result;
+    result = result.toString().includes('.')? result.toFixed(14 - integerLength): result;
     return result.toString().length > 16? parseFloat(result).toExponential(2): result;
+}
+
+function setDecimalSeparator(operand) {
+    numbers = /(-?)(\d+,?\d*)(\.?\d*)/g.exec(operand);
+    integerPortion = numbers[2].split('').reverse().join('');
+    const arr = [];
+
+    for (let i = 0; i < integerPortion.length; i += 3) {
+        arr.push(integerPortion.substring(i, i + 3));
+    }
+
+    let result = arr.join(',').split('').reverse().join('');
+
+    if (numbers[3]) {
+        result += numbers[3];
+    }
+
+    return result
 }
 
 function setOperandButton(object) {
@@ -73,11 +89,11 @@ function setOperandButton(object) {
             operandA = operandA.substring(0, 16);
         }
         opdA = operandA;
-        mainScreen.textContent = operandA.toLocaleString();
+        mainScreen.textContent = setDecimalSeparator(operandA);
     }
     else {
         operandB += object;
-        operandB = /^0*(\d+\.?\d*)0*$/g.exec(operandB)[1].substring(0, 18);
+        operandB = /^0*(\d+\.?\d*)0*$/g.exec(operandB)[1];
         if (/^0\./g.test(operandB)) {
             operandB = operandB.substring(0, 18);
         } else if(/^[1-9]+\./g.test(operandB)) {
@@ -86,12 +102,12 @@ function setOperandButton(object) {
             operandB = operandB.substring(0, 16);
         }        
         opdB = operandB;
-        mainScreen.textContent = operandB.toLocaleString(); 
+        mainScreen.textContent = setDecimalSeparator(operandB); 
     }
 }
 
 function getOperator(object) {
-    let operators = {'*': 'x', '/': '➗'};
+    let operators = {'*': 'x', '/': '÷'};
     return /[\*//]/g.test(object)? operators[object]: object;
 }
 
@@ -99,7 +115,7 @@ function setOperatorButton(object) {
     if (operandB !== '') {
         operandB ||= opdB;
         const outcome = operate(operandA || 0, operator, operandB || 0);
-        if (operator === '➗' && parseFloat(operandB) === 0) {
+        if (operator === '÷' && parseFloat(operandB) === 0) {
             mainScreen.textContent = 'Cannot divide by zero';
             opT = operator;
         } else {
@@ -113,7 +129,6 @@ function setOperatorButton(object) {
     if (isNaN(parseFloat(mainScreen.textContent))) {
         subScreen.textContent = `${operandA || 0} ${opT} ${operandB || 0} ${operator}`;
         clearAll();
-        // Add logic to only show the number and equal buttons
     } else {
         subScreen.textContent = `${operandA || 0} ${operator}`;
     }
@@ -128,11 +143,10 @@ function setEqualButton() {
         operandB ||= opdB;
         operator ||= opT;
         const outcome = operate(operandA || 0, operator, operandB || 0);
-        if (operator === '➗' && parseFloat(operandB) === 0) {
+        if (operator === '÷' && parseFloat(operandB) === 0) {
             subScreen.textContent = `${operandA || 0} ${operator}`
             mainScreen.textContent = 'Cannot divide by zero';
             clearAll();
-            // Add logic to only show the number and equal buttons
         } else {
             subScreen.textContent = `${operandA || 0} ${operator} ${operandB || 0} =`;
             operandA = outcome;
@@ -160,10 +174,10 @@ function setPercentButton() {
 function setNegateButton() {
     if (!operator) {
         operandA = -(operandA || opdA) ;
-        mainScreen.textContent = operandA.toLocaleString();
+        mainScreen.textContent = operandA;
     } else {
         operandB = -(operandB || opdB);
-        mainScreen.textContent = operandB.toLocaleString();
+        mainScreen.textContent = operandB;
     }
 }
 
@@ -212,25 +226,36 @@ function setBackspaceButton() {
     }
 }
 
-window.addEventListener('keydown', event => {
-    if (/^\d$/g.test(event.key)) {
-        setOperandButton(event.key);
-    } else if(/[\+\*//-]/g.test(event.key)) {
-        setOperatorButton(event.key);
-    } else if(/Enter|=/g.test(event.key)) {
-        event.preventDefault();
-        setEqualButton();
-    } else if(/\./g.test(event.key)) {
-        setDecimalButton(event.key);
-    } else if(/Escape/g.test(event.key)) {
-        event.preventDefault();
-        setClearAllButton();
-    } else if(/Backspace/g.test(event.key)) {
-        event.preventDefault();
-        setBackspaceButton();
-    } else if(/%/g.test(event.key)) {
-        setPercentButton();
-    }
+['keydown', 'click'].forEach(action => {
+    if (action === 'keydown') {
+        window.addEventListener(action, event => {
+            // for (button of buttons) {
+            //     if (event.key == button.textContent) {
+            //         button.classList.add('hidden');
+            //         setTimeout(() => button.classList.remove('hidden'), 1);
+            //     }
+            // }
+            if (/^\d$/g.test(event.key)) {
+                setOperandButton(event.key);
+            } else if(/[\+\*//-]/g.test(event.key)) {
+                setOperatorButton(event.key);
+            } else if(/Enter|=/g.test(event.key)) {
+                event.preventDefault();
+                setEqualButton();
+            } else if(/\./g.test(event.key)) {
+                setDecimalButton(event.key);
+            } else if(/Escape/g.test(event.key)) {
+                event.preventDefault();
+                setClearAllButton();
+            } else if(/Backspace/g.test(event.key)) {
+                event.preventDefault();
+                setBackspaceButton();
+            } else if(/%/g.test(event.key)) {
+                setPercentButton();
+            }
+        })
+    } 
+    window.addEventListener(action, () => setScreenFontSize(mainScreen));
 });
 
 [...numberButtons].forEach(button => 
