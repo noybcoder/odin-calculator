@@ -17,8 +17,8 @@ main {
     position: relative;
     background: rgb(0, 0, 0);
     color: rgb(255, 255, 255);
-    width: 330px;
-    height: 625px;
+    width: 310px;
+    height: 600px;
     padding: 15px;
     border: 3px silver solid;
     border-radius: 35px;
@@ -36,12 +36,12 @@ img {
 }
 
 .screen-wrapper {
-    width: auto;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    white-space: nowrap;
     padding: 0 10px;
-    margin-bottom: 10px;
+    margin: 0 0 10px 5px;
 }
 
 #main-screen {
@@ -61,6 +61,14 @@ img {
 }
 
 button {
+    width: 60px;
+    height: 60px;
+    font-size: 22px;
+    border: 0;
+    border-radius: 50%;
+}
+
+button:hover {
     width: 65px;
     height: 65px;
     font-size: 22px;
@@ -68,33 +76,26 @@ button {
     border-radius: 50%;
 }
 
-button:hover {
-    width: 75px;
-    height: 75px;
-    font-size: 22px;
-    border: 0;
-    border-radius: 50%;
-}
-
-button:active {
-    background-color: orange;
-}
-
 button:focus {
     outline-width: 0;
 }
 
-.digits, #negation, #period {
+.operands {
     background-color: #333;
     color: #ffffff;
 }
 
-.operators, #equal {
-    background-color: #f1a33c;
+.operators {
+    background-color: #ff9f0a;
     color: #ffffff;
 }
 
-#clear, #backspace, #percentage {
+.operators:active, .operators.hidden {
+    background-color: #ffbd56;
+    color: #ffffff;
+}
+
+.eliminators {
     background-color: #a5a5a5;
     color: #000000;
 }

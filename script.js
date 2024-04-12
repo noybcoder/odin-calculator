@@ -4,6 +4,7 @@ const minuteDisplay = document.getElementById('minute');
 const mainScreen = document.getElementById('main-screen');
 const subScreen = document.getElementById('sub-screen');
 
+const buttons = document.querySelectorAll('button');
 const numberButtons = document.getElementsByClassName('digits');
 const operatorButtons = document.getElementsByClassName('operators');
 const equalButton = document.getElementById('equal');
@@ -20,7 +21,7 @@ let operator = '', opT = '';
 
 function resizeScreen(element) {
     const screenFontSize = window.getComputedStyle(element).fontSize;
-    element.style.fontSize = `${parseFloat(screenFontSize) - 3}px`;
+    element.style.fontSize = `${parseFloat(screenFontSize) - 5}px`;
 
     if (element.clientWidth >= element.parentElement.clientWidth) {
         resizeScreen(element);
@@ -110,7 +111,6 @@ function setOperatorButton(object) {
     if (isNaN(parseFloat(mainScreen.textContent))) {
         subScreen.textContent = `${operandA || 0} ${opT} ${operandB || 0} ${operator}`;
         clearAll();
-        // Add logic to only show the number and equal buttons
     } else {
         subScreen.textContent = `${operandA || 0} ${operator}`;
     }
@@ -129,7 +129,6 @@ function setEqualButton() {
             subScreen.textContent = `${operandA || 0} ${operator}`
             mainScreen.textContent = 'Cannot divide by zero';
             clearAll();
-            // Add logic to only show the number and equal buttons
         } else {
             subScreen.textContent = `${operandA || 0} ${operator} ${operandB || 0} =`;
             operandA = outcome;
@@ -209,9 +208,15 @@ function setBackspaceButton() {
     }
 }
 
-['keydown', 'click'].forEach(action => {
-    if (action === 'keydown') {
+['keypress', 'click'].forEach(action => {
+    if (action === 'keypress') {
         window.addEventListener(action, event => {
+            for (button of buttons) {
+                if (event.key == button.textContent) {
+                    button.classList.add('hidden');
+                    setTimeout(() => button.classList.remove('hidden'), 1);
+                }
+            }
             if (/^\d$/g.test(event.key)) {
                 setOperandButton(event.key);
             } else if(/[\+\*//-]/g.test(event.key)) {
