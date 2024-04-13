@@ -19,6 +19,10 @@ const deleteBtn = document.getElementById('backspace');
 let operandA = '', operandB = '', opdA = '', opdB = '';
 let operator = '', opT = '';
 
+const date = new Date();
+hourDisplay.textContent = date.getHours();
+minuteDisplay.textContent = date.getMinutes();
+
 function resizeScreen(element) {
     const screenFontSize = window.getComputedStyle(element).fontSize;
     element.style.fontSize = `${parseFloat(screenFontSize) - 5}px`;

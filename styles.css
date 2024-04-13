@@ -31,6 +31,10 @@ main {
     margin-bottom: 115px;
 }
 
+#clock {
+    font-size: 13px;
+}
+
 img {
     width: 65px;
 }
@@ -106,6 +110,13 @@ button:focus {
     background-color: #a5a5a5;
     color: #000000;
 }
+
+#clear:active, #backspace:active, #percentage:active,
+#clear.hidden, #backspace.hidden, #percentage.hidden {
+    background-color: #edebeb;
+    color: #000000;
+}
+
 
 #backspace {
     font-size: 15px;
