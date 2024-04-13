@@ -60,7 +60,7 @@ function operate(opA, op, opB) {
 }
 
 function setDecimalSeparator(operand) {
-    numbers = /(-?)(\d+,?\d*)(\.?\d*)/g.exec(operand);
+    numbers = /(-?)(\d+,?\d*)(\.?\d*e?\+?\d*)/g.exec(operand);
     integerPortion = numbers[2].split('').reverse().join('');
     const arr = [];
 
@@ -74,13 +74,15 @@ function setDecimalSeparator(operand) {
         result += numbers[3];
     }
 
-    return result
+    console.log(numbers);
+
+    return numbers[1]? numbers[1] + result: result;
 }
 
 function setOperandButton(object) {
     if (!operator) {
         operandA += object;
-        operandA = /^0*(\d+\.?\d*)0*$/g.exec(operandA)[1];
+        operandA = /^0*(-?\d+,?\d*\.?\d*)0*$/g.exec(operandA)[1];
         if (/^0\./g.test(operandA)) {
             operandA = operandA.substring(0, 18);
         } else if(/^[1-9]+\./g.test(operandA)) {
@@ -93,7 +95,7 @@ function setOperandButton(object) {
     }
     else {
         operandB += object;
-        operandB = /^0*(\d+\.?\d*)0*$/g.exec(operandB)[1];
+        operandB = /^0*(-?\d+,?\d*\.?\d*)0*$/g.exec(operandB)[1];
         if (/^0\./g.test(operandB)) {
             operandB = operandB.substring(0, 18);
         } else if(/^[1-9]+\./g.test(operandB)) {
@@ -120,7 +122,7 @@ function setOperatorButton(object) {
             opT = operator;
         } else {
             operandA = outcome;
-            mainScreen.textContent = operandA;
+            mainScreen.textContent = setDecimalSeparator(operandA);
             operandB = '';
         }
     } 
@@ -150,7 +152,7 @@ function setEqualButton() {
         } else {
             subScreen.textContent = `${operandA || 0} ${operator} ${operandB || 0} =`;
             operandA = outcome;
-            mainScreen.textContent = operandA;
+            mainScreen.textContent = setDecimalSeparator(operandA);
         }
         opdB = operandB;
         opT = operator;
@@ -164,20 +166,20 @@ function setEqualButton() {
 function setPercentButton() {
     if (!operator) {
         operandA = (operandA || opdA)/100;
-        mainScreen.textContent = operandA;
+        mainScreen.textContent = setDecimalSeparator(operandA);
     } else {
         operandB = (operandB || opdB)/100;
-        mainScreen.textContent = operandB;
+        mainScreen.textContent = setDecimalSeparator(operandB);
     }
 }
 
 function setNegateButton() {
     if (!operator) {
         operandA = -(operandA || opdA) ;
-        mainScreen.textContent = operandA;
+        mainScreen.textContent = setDecimalSeparator(operandA);
     } else {
         operandB = -(operandB || opdB);
-        mainScreen.textContent = operandB;
+        mainScreen.textContent = setDecimalSeparator(operandB);
     }
 }
 
@@ -186,13 +188,13 @@ function setDecimalButton(object) {
         if (!operandA.toString().includes('.')) {
             operandA += object;
             operandA = /^\./g.test(operandA)? '0' + operandA: operandA;
-            mainScreen.textContent = operandA;
+            mainScreen.textContent = setDecimalSeparator(operandA);
         } 
     } else {
         if (!operandB.toString().includes('.')) {
             operandB += object;
             operandB = /^\./g.test(operandB)? '0' + operandB: operandB;
-            mainScreen.textContent = operandB;
+            mainScreen.textContent = setDecimalSeparator(operandB);
         } 
     }
 }
@@ -214,14 +216,14 @@ function setBackspaceButton() {
             operandA = operandA.toString().slice(0, -1) || 0;
             operandA = /\.$/g.test(operandA)? operandA.replace('.', ''): operandA;
             opdA = operandA;
-            mainScreen.textContent = operandA;
+            mainScreen.textContent = setDecimalSeparator(operandA);
         }
     } else {
         if (operandB != '') {
             operandB = operandB.toString().slice(0, -1) || 0;
             operandB = /\.$/g.test(operandB)? operandB.replace('.', ''): operandB;
             opdB = operandB;
-            mainScreen.textContent = operandB;
+            mainScreen.textContent = setDecimalSeparator(operandB);
         }
     }
 }
