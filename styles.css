@@ -85,12 +85,19 @@ button:focus {
     color: #ffffff;
 }
 
+.operands:active, #negation:active, #period:active, 
+.operands.hidden, #negation.hidden, #period.hidden {
+    background-color: #565454;
+    color: #ffffff;
+}
+
 .operators, #equal {
     background-color: #ff9f0a;
     color: #ffffff;
 }
 
-.operators:active, .operators.hidden, #equal:active, #equal.hidden {
+.operators:active, #equal:active, 
+.operators.hidden, #equal.hidden {
     background-color: #ffbd56;
     color: #ffffff;
 }

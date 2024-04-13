@@ -54,9 +54,8 @@ function operate(opA, op, opB) {
             result = a / b;
             break;
     }
-    integerLength = result.toString().split('.')[0].length;
-    result = result.toString().includes('.')? result.toFixed(14 - integerLength): result;
-    return result.toString().length > 16? parseFloat(result).toExponential(2): result;
+    result = result.toString().includes('.')? result.toFixed(10): result;
+    return result.toString().length > 18? parseFloat(result).toExponential(2): result;
 }
 
 function setDecimalSeparator(operand) {
@@ -73,8 +72,6 @@ function setDecimalSeparator(operand) {
     if (numbers[3]) {
         result += numbers[3];
     }
-
-    console.log(numbers);
 
     return numbers[1]? numbers[1] + result: result;
 }
@@ -231,12 +228,12 @@ function setBackspaceButton() {
 ['keydown', 'click'].forEach(action => {
     if (action === 'keydown') {
         window.addEventListener(action, event => {
-            // for (button of buttons) {
-            //     if (event.key == button.textContent) {
-            //         button.classList.add('hidden');
-            //         setTimeout(() => button.classList.remove('hidden'), 1);
-            //     }
-            // }
+            for (button of buttons) {
+                if (event.key === button.textContent) {
+                    button.classList.add('hidden');
+                    setTimeout(() => button.classList.remove('hidden'), 100);
+                }
+            }
             if (/^\d$/g.test(event.key)) {
                 setOperandButton(event.key);
             } else if(/[\+\*//-]/g.test(event.key)) {
