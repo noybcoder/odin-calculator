@@ -20,8 +20,8 @@ let operandA = '', operandB = '', opdA = '', opdB = '';
 let operator = '', opT = '';
 
 const date = new Date();
-hourDisplay.textContent = date.getHours();
-minuteDisplay.textContent = date.getMinutes();
+hourDisplay.textContent = date.getHours().toString().padStart(2, '0');
+minuteDisplay.textContent = date.getMinutes().toString().padStart(2, '0');
 
 function resizeScreen(element) {
     const screenFontSize = window.getComputedStyle(element).fontSize;

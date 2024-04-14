@@ -4,7 +4,7 @@ const minuteDisplay = document.getElementById('minute');
 const mainScreen = document.getElementById('main-screen');
 const subScreen = document.getElementById('sub-screen');
 
-const buttons = document.querySelectorAll('button');
+const allButtons = document.querySelectorAll('button');
 const numberButtons = document.getElementsByClassName('operands');
 const operatorButtons = document.getElementsByClassName('operators');
 const equalButton = document.getElementById('equal');
@@ -20,8 +20,8 @@ let operandA = '', operandB = '', opdA = '', opdB = '';
 let operator = '', opT = '';
 
 const date = new Date();
-hourDisplay.textContent = date.getHours();
-minuteDisplay.textContent = date.getMinutes();
+hourDisplay.textContent = date.getHours().toString().padStart(2, '0');
+minuteDisplay.textContent = date.getMinutes().toString().padStart(2, '0');
 
 function resizeScreen(element) {
     const screenFontSize = window.getComputedStyle(element).fontSize;
@@ -109,9 +109,9 @@ function setOperandButton(object) {
     }
 }
 
-function getOperator(object) {
-    let operators = {'*': 'x', '/': '÷'};
-    return /[\*//]/g.test(object)? operators[object]: object;
+function setButtonMapper(object) {
+    let buttonMappers = {'*': 'x', '/': '÷', 'Escape': 'AC', 'Backspace': '⌫'};
+    return /[\*//]|Backspace|Escape/g.test(object)? buttonMappers[object]: object;
 }
 
 function setOperatorButton(object) {
@@ -128,7 +128,7 @@ function setOperatorButton(object) {
         }
     } 
     operandA ||= opdA;
-    operator = getOperator(object);
+    operator = setButtonMapper(object);
     if (isNaN(parseFloat(mainScreen.textContent))) {
         subScreen.textContent = `${operandA || 0} ${opT} ${operandB || 0} ${operator}`;
         clearAll();
@@ -232,12 +232,14 @@ function setBackspaceButton() {
 ['keydown', 'click'].forEach(action => {
     if (action === 'keydown') {
         window.addEventListener(action, event => {
-            for (button of buttons) {
-                if (event.key === button.textContent) {
+            allButtons.forEach(button => {
+                if (setButtonMapper(event.key) === button.textContent) {
                     button.classList.add('hidden');
-                    setTimeout(() => button.classList.remove('hidden'), 100);
+                    setTimeout(() => {
+                        button.classList.remove('hidden');
+                    }, 100);
                 }
-            }
+            });
             if (/^\d$/g.test(event.key)) {
                 setOperandButton(event.key);
             } else if(/[\+\*//-]/g.test(event.key)) {
