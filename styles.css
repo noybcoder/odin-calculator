@@ -10,24 +10,25 @@ body {
     justify-content: center;
     font-family: "Helvetica Neue", sans-serif;
     margin: 15px;
-    background-color: grey;
+    background-color: #808080;
 }
 
 main {
+    flex: 0 1 auto;
     position: relative;
     background: #000000;
     color: #ffffff;
-    width: 310px;
-    height: 600px;
-    padding: 15px;
-    border: 3px silver solid;
+    width: 275px;
+    height: 560px;
+    padding: 10px;
+    border: 3px #c0c0c0 solid;
     border-radius: 35px;
 }
 
 .top-wrapper {
     display: flex;
     justify-content: space-around;
-    column-gap: 170px;
+    column-gap: 115px;
     margin-bottom: 115px;
 }
 
@@ -65,17 +66,17 @@ img {
 }
 
 button {
-    width: 60px;
-    height: 60px;
-    font-size: 22px;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
     border: 0;
     border-radius: 50%;
 }
 
 button:hover {
-    width: 65px;
-    height: 65px;
-    font-size: 22px;
+    width: 55px;
+    height: 55px;
+    font-size: 24px;
     border: 0;
     border-radius: 50%;
 }
@@ -93,6 +94,7 @@ button:focus {
 .operands.flash, #negation.flash, #period.flash {
     background-color: #565454;
     color: #ffffff;
+    font-size: 20px;
 }
 
 .operators, #equal {
@@ -104,6 +106,7 @@ button:focus {
 .operators.flash, #equal.flash {
     background-color: #ffbd56;
     color: #ffffff;
+    font-size: 20px;
 }
 
 #clear, #backspace, #percentage {
@@ -115,6 +118,7 @@ button:focus {
 #clear.flash, #backspace.flash, #percentage.flash {
     background-color: #edebeb;
     color: #000000;
+    font-size: 20px;
 }
 
 
@@ -128,6 +132,6 @@ button:focus {
 
 .bottom {
     width: auto;
-    margin: 25px 80px;
-    border: 2px silver solid;
+    margin: 30px 80px 20px 80px;
+    border: 2px #c0c0c0 solid;
 }
