@@ -1,3 +1,4 @@
+// Declare screen displays and button
 const hourDisplay = document.getElementById('hour');
 const minuteDisplay = document.getElementById('minute');
 
@@ -18,13 +19,16 @@ const deleteBtn = document.getElementById('backspace');
 
 const sound = document.getElementById('button-sound');
 
+// Declare operands and operators used in calculation
 let operandA = '', operandB = '', opdA = '', opdB = '';
 let operator = '', opT = '';
 
+// Display the current hour and minute in the calculator
 const date = new Date();
 hourDisplay.textContent = date.getHours().toString().padStart(2, '0');
 minuteDisplay.textContent = date.getMinutes().toString().padStart(2, '0');
 
+// Resize the font size when the text exceeds the screen width
 function resizeScreen(element) {
     const screenFontSize = window.getComputedStyle(element).fontSize;
     element.style.fontSize = `${parseFloat(screenFontSize) - 5}px`;
@@ -39,6 +43,7 @@ function setScreenFontSize(element) {
     resizeScreen(element);
 }
 
+// Set up the calculation function
 function operate(opA, op, opB) {
     let result = 0;
     a = parseFloat(opA);
@@ -64,6 +69,7 @@ function operate(opA, op, opB) {
     return result.toString().length > 18? parseFloat(result).toExponential(2): result;
 }
 
+// Set up the decimal separator
 function setDecimalSeparator(operand) {
     numbers = /(-?)(\d+,?\d*)(\.?\d*e?\+?\d*)/g.exec(operand);
     integerPortion = numbers[2].split('').reverse().join('');
@@ -82,6 +88,7 @@ function setDecimalSeparator(operand) {
     return numbers[1]? numbers[1] + result: result;
 }
 
+// Set up the operand buttons
 function setOperandButton(object) {
     if (!operator) {
         operandA += object;
@@ -111,11 +118,13 @@ function setOperandButton(object) {
     }
 }
 
+// Set up the button mapper for buttons that have different keys
 function setButtonMapper(object) {
     let buttonMappers = {'*': 'x', '/': '÷', 'Escape': 'AC', 'Backspace': '⌫'};
     return /[\*//]|Backspace|Escape/g.test(object)? buttonMappers[object]: object;
 }
 
+// Set up the operator buttons
 function setOperatorButton(object) {
     if (operandB !== '') {
         operandB ||= opdB;
@@ -140,6 +149,7 @@ function setOperatorButton(object) {
     opdB = operandA || operandB;
 }
 
+// Set up the equal button
 function setEqualButton() {
     operandA ||= opdA;
     if (!operator && !opT) {
@@ -166,6 +176,7 @@ function setEqualButton() {
     operandA = '';
 }
 
+// Set up the percentage button
 function setPercentButton() {
     if (!operator) {
         operandA = (operandA || opdA)/100;
@@ -176,6 +187,7 @@ function setPercentButton() {
     }
 }
 
+// Set up the negate button
 function setNegateButton() {
     if (!operator) {
         operandA = -(operandA || opdA) ;
@@ -186,6 +198,7 @@ function setNegateButton() {
     }
 }
 
+// Set up the decimal button
 function setDecimalButton(object) {
     if (!operator) {
         if (!operandA.toString().includes('.')) {
@@ -202,6 +215,7 @@ function setDecimalButton(object) {
     }
 }
 
+// Set up the clear everything button
 function clearAll() {
     operandA = operandB = opdA = opdB = '';
     operator = opT = '';
@@ -213,6 +227,7 @@ function setClearAllButton() {
     clearAll();
 }
 
+// Set up the backspace button
 function setBackspaceButton() {
     if (!operator) {
         if (operandA !== '') {
@@ -231,6 +246,7 @@ function setBackspaceButton() {
     }
 }
 
+// Set up the pressed and click events for the buttons
 ['keydown', 'click'].forEach(action => {
     if (action === 'keydown') {
         window.addEventListener(action, event => {
