@@ -262,7 +262,10 @@ function setBackspaceButton() {
             }
         })
     } 
-    window.addEventListener(action, () => setScreenFontSize(mainScreen));
+    window.addEventListener(action, () => {
+        setScreenFontSize(mainScreen);
+        sound.play();
+    });
 });
 
 [...numberButtons].forEach(button => 

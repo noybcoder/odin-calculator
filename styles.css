@@ -19,8 +19,9 @@ main {
     background: #000000;
     color: #ffffff;
     width: 275px;
-    height: 560px;
+    height: 550px;
     padding: 10px;
+    margin-top: 3%;
     border: 3px #c0c0c0 solid;
     border-radius: 35px;
 }
@@ -74,11 +75,8 @@ button {
 }
 
 button:hover {
-    width: 55px;
-    height: 55px;
-    font-size: 24px;
-    border: 0;
-    border-radius: 50%;
+    font-size: 28px;
+    font-weight: bolder;
 }
 
 button:focus {
@@ -92,9 +90,12 @@ button:focus {
 
 .operands:active, #negation:active, #period:active, 
 .operands.flash, #negation.flash, #period.flash {
-    background-color: #565454;
-    color: #ffffff;
     font-size: 20px;
+    background-color: #565454;
+}
+
+#period {
+    padding-bottom: 10px;
 }
 
 .operators, #equal {
@@ -104,9 +105,8 @@ button:focus {
 
 .operators:active, #equal:active, 
 .operators.flash, #equal.flash {
-    background-color: #ffbd56;
-    color: #ffffff;
     font-size: 20px;
+    background-color: #ffbd56;
 }
 
 #clear, #backspace, #percentage {
@@ -116,18 +116,16 @@ button:focus {
 
 #clear:active, #backspace:active, #percentage:active,
 #clear.flash, #backspace.flash, #percentage.flash {
-    background-color: #edebeb;
-    color: #000000;
     font-size: 20px;
+    background-color: #edebeb;
 }
 
-
-#backspace {
-    font-size: 15px;
-}
-
-#division {
+#division, .operators#division:active, .operators#division.flash {
     font-size: 30px;
+}
+
+#division:hover {
+    font-size: 35px;
 }
 
 .bottom {
