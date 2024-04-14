@@ -4,18 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
+    <link href="images/title-icon.png" rel="icon" type="icon/png">
     <link href="styles.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
     <script defer src="script.js"></script>
 </head>
 <body>
+    <audio id="button-sound">
+        <source src="audio/office-calculator-single-button-press.mp3" type="audio/mp3">
+    </audio>
     <main>
         <div class="top-wrapper">
             <div id="clock">
                 <span id="hour"></span>:<span id="minute"></span>
             </div>
             <div id="status">
-                <img src="status.png" alt="status">
+                <img src="images/status.png" alt="status">
             </div>
         </div>
         <div class="screen-wrapper">

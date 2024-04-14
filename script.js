@@ -16,6 +16,8 @@ const negateButton = document.getElementById('negation');
 const clearBtn = document.getElementById('clear');
 const deleteBtn = document.getElementById('backspace');
 
+const sound = document.getElementById('button-sound');
+
 let operandA = '', operandB = '', opdA = '', opdB = '';
 let operator = '', opT = '';
 

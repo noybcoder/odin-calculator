@@ -15,8 +15,8 @@ body {
 
 main {
     position: relative;
-    background: rgb(0, 0, 0);
-    color: rgb(255, 255, 255);
+    background: #000000;
+    color: #ffffff;
     width: 310px;
     height: 600px;
     padding: 15px;
