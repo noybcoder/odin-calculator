@@ -234,9 +234,9 @@ function setBackspaceButton() {
         window.addEventListener(action, event => {
             allButtons.forEach(button => {
                 if (setButtonMapper(event.key) === button.textContent) {
-                    button.classList.add('hidden');
+                    button.classList.add('flash');
                     setTimeout(() => {
-                        button.classList.remove('hidden');
+                        button.classList.remove('flash');
                     }, 100);
                 }
             });

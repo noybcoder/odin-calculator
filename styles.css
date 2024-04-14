@@ -90,7 +90,7 @@ button:focus {
 }
 
 .operands:active, #negation:active, #period:active, 
-.operands.hidden, #negation.hidden, #period.hidden {
+.operands.flash, #negation.flash, #period.flash {
     background-color: #565454;
     color: #ffffff;
 }
@@ -101,7 +101,7 @@ button:focus {
 }
 
 .operators:active, #equal:active, 
-.operators.hidden, #equal.hidden {
+.operators.flash, #equal.flash {
     background-color: #ffbd56;
     color: #ffffff;
 }
@@ -112,7 +112,7 @@ button:focus {
 }
 
 #clear:active, #backspace:active, #percentage:active,
-#clear.hidden, #backspace.hidden, #percentage.hidden {
+#clear.flash, #backspace.flash, #percentage.flash {
     background-color: #edebeb;
     color: #000000;
 }
